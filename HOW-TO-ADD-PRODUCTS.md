@@ -3,9 +3,9 @@
 **No coding. No computer commands. Just an app on your phone or laptop.**
 
 You add and edit products in **Airtable** (a free, simple app that works like a
-smart spreadsheet). The website reads from it automatically. When you add a
-product in Airtable, it appears on the website by itself — usually within a
-minute (just refresh the page).
+smart spreadsheet). The website updates itself automatically from Airtable — when
+you add or change a product, it appears on the website on its own, usually
+**within about 10 minutes**. Nothing to publish, no buttons to press.
 
 ---
 
@@ -26,7 +26,7 @@ minute (just refresh the page).
    | **Featured** | Tick to show a "New" tag | ☐ / ☑ |
    | **Visible** | Tick to show it on the website | ☑ |
 
-4. That's it. Refresh the website to see it live.
+4. That's it. It appears on the website automatically within about 10 minutes.
 
 **To edit** a product: change the row.
 **To hide** a product: untick **Visible** (or delete the row).
@@ -42,49 +42,24 @@ minute (just refresh the page).
 
 ---
 
-## One-time setup (done once, by you or a helper)
+## Setup — already done ✅
 
-This connects the website to your Airtable. **You only do this once.**
+The website is already connected to Airtable. The base, the fields, and the
+secure connection are set up, so **you don't need to do any of this** — it's
+here only for reference.
 
-### Step 1 — Create the Airtable base
-1. Sign up free at [airtable.com](https://airtable.com).
-2. Create a new **base** named `Jiya Products` with a table named `Products`.
-3. Add these columns (called "fields") with these exact names and types:
+- **Base:** `Jiya Products` → table `Products`
+- **Fields:** Name, Category, Price, Description, Photo, SoldOut, Featured, Visible
+- **Connection:** a **read-only** Airtable token is stored as a private
+  **GitHub secret** (not in the website's code). An automatic job reads Airtable
+  every ~10 minutes and updates the site. Photos are copied into the site too, so
+  everything stays fast and reliable.
 
-   | Field name | Field type |
-   | --- | --- |
-   | Name | Single line text |
-   | Category | Single select (options: `Pouches`, `Charms & Keychains`, `Hair Accessories`, `Caps & Beanies`, `Winterwear`, `Toys`, `Baby`, `Festive`) |
-   | Price | Single line text |
-   | Description | Long text |
-   | Photo | Attachment |
-   | SoldOut | Checkbox |
-   | Featured | Checkbox |
-   | Visible | Checkbox |
-
-### Step 2 — Get your connection details
-1. **Base ID:** open your base, click **Help → API documentation**. Near the top
-   it shows a line like `The ID of this base is appXXXXXXXXXXXXXX`. Copy the
-   `appXXXX...` part.
-2. **Token:** go to
-   [airtable.com/create/tokens](https://airtable.com/create/tokens) → **Create token**.
-   - Name: `Jiya website`
-   - Scopes: add **`data.records:read`** (read-only — safe to use on a website)
-   - Access: add your **Jiya Products** base
-   - Click **Create** and copy the token (starts with `pat...`).
-
-### Step 3 — Put them in the website
-1. Open the file **`config.js`**.
-2. Paste your token and base ID between the quotes:
-   ```js
-   token: "patXXXXXXXXXXXXXX",
-   baseId: "appXXXXXXXXXXXXXX",
-   tableName: "Products",
-   ```
-3. Save. Done — the website now shows your real products.
-
-> This is the **only** time anyone edits a file. After this, you only ever use
-> the Airtable app to manage products.
+If you ever need to reconnect (e.g. the token was reset), a helper can create a
+new read-only token at
+[airtable.com/create/tokens](https://airtable.com/create/tokens) (scope
+`data.records:read`, access to the Jiya base) and update the GitHub secret named
+`AIRTABLE_TOKEN`.
 
 ---
 
@@ -93,12 +68,12 @@ This connects the website to your Airtable. **You only do this once.**
 **Do I need to "commit" or use any code?**
 No. Adding products is done entirely in the Airtable app. Nothing to commit.
 
-**Is the token safe to put in the website?**
-Yes. It's **read-only** — it can only *show* your products, never change or
-delete anything.
+**Is my token exposed on the website?**
+No. The token is **read-only** and stored as a private GitHub secret — it is
+never part of the website's code or visible to visitors.
 
-**Nothing shows up / it shows old sample products.**
-That means `config.js` isn't filled in yet (Step 3), or a field name doesn't
-match. Double-check the field names in Step 1.
+**I added a product but don't see it yet.**
+The site refreshes from Airtable about every 10 minutes — give it a few minutes.
+Also make sure the product's **Visible** box is ticked.
 
 **Made just for you. 💛**
