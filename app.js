@@ -50,14 +50,24 @@
       .replace(/>/g, "&gt;");
   }
 
+  function absoluteUrl(path) {
+    if (!path) return "";
+    if (/^https?:\/\//i.test(path)) return path;
+    try {
+      var dir = window.location.pathname;
+      if (/\.[a-z0-9]+$/i.test(dir)) dir = dir.replace(/\/[^/]+$/, "/");
+      else if (!/\/$/.test(dir)) dir += "/";
+      return new URL(path, window.location.origin + dir).href;
+    } catch (e) {
+      return path;
+    }
+  }
+
   function waMessage(productName, imagePath) {
     var base = "Hi Jiya! I'd like to order";
     var msg = productName ? base + ": " + productName : base + " from your creations.";
-    if (imagePath) {
-      var absolute = imagePath;
-      try { absolute = new URL(imagePath, document.baseURI).href; } catch (e) {}
-      msg += "\n" + absolute;
-    }
+    var photo = absoluteUrl(imagePath);
+    if (photo) msg += "\n" + photo;
     return "https://wa.me/" + biz.whatsapp + "?text=" + encodeURIComponent(msg);
   }
 
