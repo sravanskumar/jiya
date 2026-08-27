@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jiya Handmade Creations — Handmade with love, made just for you</title>
+  <meta name="description" content="Jiya Handmade Creations — small-batch hand-knitted and crochet woollen pouches, charms, caps and festive rakhis, handmade in Guntur." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a class="brand" href="#top">
+        <span class="brand-script">jiya</span>
+        <span class="brand-sub">Handmade Creations</span>
+      </a>
+      <div class="nav-links">
+        <a href="#products">Shop</a>
+        <a href="#about">Our Story</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero-leaf hero-leaf-left" aria-hidden="true"></div>
+    <div class="hero-leaf hero-leaf-right" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <p class="eyebrow">Handmade with love, made just for you</p>
+      <h1 id="hero-heading" class="hero-heading"></h1>
+      <p id="hero-subheading" class="hero-sub"></p>
+      <a id="hero-button" href="#products" class="btn btn-primary"></a>
+    </div>
+  </section>
+
+  <!-- ===================== PRODUCTS ===================== -->
+  <section class="section" id="products">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Our Creations</p>
+        <h2 class="section-title">Handmade, in small batches</h2>
+        <p class="section-note">Every piece is made by hand. Tap a product to order on WhatsApp.</p>
+      </div>
+
+      <div id="filters" class="filters"></div>
+      <div id="product-grid" class="product-grid"></div>
+      <p id="empty-note" class="empty-note" hidden>No products in this category yet — check back soon 💛</p>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="section section-about" id="about">
+    <div class="container about-inner">
+      <div class="about-card">
+        <span class="about-heart" aria-hidden="true">♥</span>
+        <h2 id="about-heading" class="section-title"></h2>
+        <p id="about-text" class="about-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="section section-contact" id="contact">
+    <div class="container contact-inner">
+      <p class="section-eyebrow">Say hello</p>
+      <h2 class="section-title">Place an order</h2>
+      <p class="section-note">Message us to order or ask about custom colours and made-to-order pieces.</p>
+      <div class="contact-buttons">
+        <a id="contact-whatsapp" class="btn btn-primary" href="#" target="_blank" rel="noopener">Order on WhatsApp</a>
+        <a id="contact-instagram" class="btn btn-outline" href="#" target="_blank" rel="noopener">Follow on Instagram</a>
+      </div>
+      <p id="contact-location" class="contact-location"></p>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="brand-script footer-logo">jiya</span>
+      <p class="footer-tagline">Thank you — made just for you.</p>
+      <p id="footer-contact" class="footer-contact"></p>
+      <p class="footer-copy">&copy; <span id="year"></span> Jiya Handmade Creations · Guntur</p>
+    </div>
+  </footer>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
