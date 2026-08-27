@@ -124,6 +124,24 @@ async function main() {
     if (!keepImages.has(file)) fs.rmSync(path.join(IMG_DIR, file));
   }
 
+  // Only rewrite products.json when the products actually changed, so the
+  // timestamp alone never creates a needless commit every run.
+  let previous = null;
+  try {
+    previous = JSON.parse(fs.readFileSync("products.json", "utf8"));
+  } catch (e) {
+    previous = null;
+  }
+
+  const unchanged =
+    previous &&
+    JSON.stringify(previous.products) === JSON.stringify(products);
+
+  if (unchanged) {
+    console.log(`No product changes (${products.length} products). Leaving products.json as is.`);
+    return;
+  }
+
   const out = {
     updatedAt: new Date().toISOString(),
     products,
