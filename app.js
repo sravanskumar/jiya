@@ -19,6 +19,30 @@
 
   function $(id) { return document.getElementById(id); }
 
+  /* ---------------- Scroll reveal ---------------- */
+  var revealObserver = null;
+  if ("IntersectionObserver" in window) {
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+  }
+  function observeReveals(nodes) {
+    if (!revealObserver) {
+      (nodes || document.querySelectorAll(".reveal")).forEach(function (n) {
+        n.classList.add("in");
+      });
+      return;
+    }
+    (nodes || document.querySelectorAll(".reveal")).forEach(function (n) {
+      revealObserver.observe(n);
+    });
+  }
+
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;")
@@ -126,11 +150,12 @@
 
     $("empty-note").hidden = list.length !== 0;
     list.forEach(function (p) { grid.appendChild(card(p)); });
+    observeReveals(grid.querySelectorAll(".card.reveal"));
   }
 
   function card(p) {
     var el = document.createElement("article");
-    el.className = "card";
+    el.className = "card reveal";
 
     if (p.soldOut) el.appendChild(ribbon("Sold out", "soldout"));
     else if (p.featured) el.appendChild(ribbon("New", ""));
@@ -186,5 +211,6 @@
 
   /* ---------------- Go ---------------- */
   fillText();
+  observeReveals();
   loadProducts();
 })();

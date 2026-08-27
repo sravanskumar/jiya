@@ -70,6 +70,21 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-outline:hover { background: rgba(201, 124, 93, 0.08); }
 
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
 /* ---------- Header ---------- */
 .site-header {
   position: sticky;
@@ -124,10 +139,24 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   overflow: hidden;
   text-align: center;
-  padding: 7rem 0 6.5rem;
-  background:
-    radial-gradient(circle at 50% -10%, rgba(224, 160, 133, 0.16), transparent 55%),
-    var(--cream);
+  padding: 7.5rem 0 7rem;
+  background: var(--cream);
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(251, 247, 240, 0.62), rgba(251, 247, 240, 0.78)),
+    url("assets/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 42%, rgba(251, 247, 240, 0.55), transparent 60%);
 }
 .hero-inner { position: relative; z-index: 2; }
 .eyebrow {
@@ -162,32 +191,6 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.05rem;
   line-height: 1.85;
 }
-.hero-leaf {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 180px;
-  opacity: 0.5;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-.hero-leaf-left {
-  left: -20px;
-  background-image: radial-gradient(circle at 30% 30%, var(--sage) 0 6px, transparent 7px),
-    radial-gradient(circle at 60% 55%, var(--blush) 0 5px, transparent 6px),
-    radial-gradient(circle at 25% 70%, var(--sage) 0 5px, transparent 6px);
-  background-position: 0 20%, 0 40%, 0 65%;
-  background-size: 60px 60px, 50px 50px, 50px 50px;
-}
-.hero-leaf-right {
-  right: -20px;
-  transform: scaleX(-1);
-  background-image: radial-gradient(circle at 30% 30%, var(--terracotta) 0 5px, transparent 6px),
-    radial-gradient(circle at 60% 55%, var(--sage) 0 6px, transparent 7px),
-    radial-gradient(circle at 25% 70%, var(--blush) 0 5px, transparent 6px);
-  background-position: 0 25%, 0 45%, 0 70%;
-  background-size: 55px 55px, 60px 60px, 50px 50px;
-}
-
 /* ---------- Sections ---------- */
 .section { padding: 6rem 0; }
 .section-head { text-align: center; margin-bottom: 3.2rem; }
@@ -248,7 +251,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 4px 18px rgba(74, 63, 53, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.7s ease;
   display: flex;
   flex-direction: column;
   position: relative;
