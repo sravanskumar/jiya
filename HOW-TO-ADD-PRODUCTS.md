@@ -18,7 +18,7 @@ minute (just refresh the page).
    | Column | What to type | Example |
    | --- | --- | --- |
    | **Name** | The product name | `Woollen Mobile Pouch` |
-   | **Category** | Pick one | `Pouches` |
+   | **Category** | Pick one (Pouches, Charms & Keychains, Hair Accessories, Caps & Beanies, Winterwear, Toys, Baby, Festive) | `Pouches` |
    | **Price** | Any text | `From ₹200` |
    | **Description** | One short line | `Snug hand-knitted phone pouch` |
    | **Photo** | Tap and **upload a photo** from your phone | 📷 |
@@ -35,6 +35,11 @@ minute (just refresh the page).
 > 💡 Photo tip: square photos in soft natural light look best. Upload straight
 > from your phone's gallery — Airtable handles the rest.
 
+> 💡 Category tip: the website's filter buttons are created automatically from
+> the categories you use. For toy sizes, keep the category as `Toys` and put the
+> size in the name or description (e.g. "Crochet Bunny (Large)"). You can add new
+> category options in Airtable any time.
+
 ---
 
 ## One-time setup (done once, by you or a helper)
@@ -49,7 +54,7 @@ This connects the website to your Airtable. **You only do this once.**
    | Field name | Field type |
    | --- | --- |
    | Name | Single line text |
-   | Category | Single select (options: `Crochet`, `Pouches`, `Charms`, `Caps`) |
+   | Category | Single select (options: `Pouches`, `Charms & Keychains`, `Hair Accessories`, `Caps & Beanies`, `Winterwear`, `Toys`, `Baby`, `Festive`) |
    | Price | Single line text |
    | Description | Long text |
    | Photo | Attachment |

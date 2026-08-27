@@ -44,14 +44,28 @@ window.JIYA = {
      ignored. You don't need to edit these.
      ------------------------------------------------------------------------- */
   sampleProducts: [
-    { name: "Crochet Rakhi", category: "Crochet", price: "From ₹80",
+    { name: "Crochet Rakhi", category: "Festive", price: "From ₹80",
       description: "Handmade woollen rakhi in festive colours.", image: "", soldOut: true, featured: false },
     { name: "Woollen Mobile Pouch", category: "Pouches", price: "From ₹200",
       description: "Snug, hand-knitted pouch for your phone. Custom colours available.", image: "", soldOut: false, featured: true },
-    { name: "Bag & Mobile Charm", category: "Charms", price: "From ₹60",
+    { name: "AirPods Pouch", category: "Pouches", price: "From ₹180",
+      description: "Cosy little pouch to keep your earbuds safe.", image: "", soldOut: false, featured: false },
+    { name: "Bag & Mobile Charm", category: "Charms & Keychains", price: "From ₹60",
       description: "Little crochet hangings for your bag or phone.", image: "", soldOut: false, featured: false },
-    { name: "Hand-Knitted Woollen Cap", category: "Caps", price: "From ₹250",
-      description: "Warm, soft caps for babies, kids and adults.", image: "", soldOut: false, featured: true },
+    { name: "Crochet Keychain", category: "Charms & Keychains", price: "From ₹70",
+      description: "Handmade keychains in fun shapes and colours.", image: "", soldOut: false, featured: false },
+    { name: "Woollen Scrunchie", category: "Hair Accessories", price: "From ₹50",
+      description: "Soft, gentle scrunchies hand-crocheted in pretty shades.", image: "", soldOut: false, featured: true },
+    { name: "Hand-Knitted Cap", category: "Caps & Beanies", price: "From ₹250",
+      description: "Warm, soft caps for babies, kids and adults.", image: "", soldOut: false, featured: false },
+    { name: "Woollen Beanie", category: "Caps & Beanies", price: "From ₹280",
+      description: "Snug beanie to keep you warm in style.", image: "", soldOut: false, featured: false },
+    { name: "Mittens & Gloves", category: "Winterwear", price: "From ₹220",
+      description: "Hand-knitted mittens and gloves for chilly days.", image: "", soldOut: false, featured: false },
+    { name: "Crochet Toy", category: "Toys", price: "From ₹150",
+      description: "Adorable handmade soft toys — small, medium and large.", image: "", soldOut: false, featured: true },
+    { name: "Infant Booties", category: "Baby", price: "From ₹160",
+      description: "Tiny, soft woollen shoes for little feet.", image: "", soldOut: false, featured: false },
   ],
 
 };

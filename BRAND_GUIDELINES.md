@@ -22,10 +22,17 @@ a pouch for your phone, a charm for your bag, a cap to keep a loved one warm, a
 rakhi tied with real affection.
 
 ### What we make
-- **Crochet items** (festival & occasion pieces, e.g. Rakhi)
-- **Woollen mobile pouches**
-- **Hangings / charms** for mobiles and handbags
-- **Hand-knitted woollen caps** (baby, kids & adults)
+- **Pouches** — mobile pouches, AirPods pouches, wallets
+- **Charms & keychains** — for mobiles and handbags
+- **Hair accessories** — scrunchies, hair ties
+- **Caps & beanies** — baby, kids & adults
+- **Winterwear** — mittens, gloves
+- **Toys** — soft crochet toys (small, medium, large)
+- **Baby** — infant booties/shoes
+- **Festive** — crochet rakhis & seasonal pieces
+
+_The range keeps growing — every piece stays hand-knitted or crocheted in small
+batches._
 
 ---
 
