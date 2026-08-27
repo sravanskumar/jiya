@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jiya — Printable Thank You Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --terracotta: #C97C5D;
+    --blush: #E0A085;
+    --sage: #9CAA85;
+    --cocoa: #4A3F35;
+    --taupe: #7A6A5A;
+    --cream: #FBF7F0;
+    --sand: #EAE0D2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #e9e4db;
+    font-family: "Poppins", sans-serif;
+    color: var(--cocoa);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+  }
+
+  /* Screen-only helper bar */
+  .toolbar {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .toolbar p { color: #6b6459; font-size: 14px; margin: 0 0 10px; }
+  .print-btn {
+    font-family: "Poppins", sans-serif;
+    background: var(--terracotta);
+    color: #fff;
+    border: none;
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(201,124,93,.35);
+  }
+
+  /* ---- The card ---- */
+  .card {
+    position: relative;
+    width: 4in;
+    height: 6in;
+    background:
+      radial-gradient(circle at 50% 8%, rgba(224,160,133,.14), transparent 45%),
+      radial-gradient(circle at 85% 92%, rgba(156,170,133,.16), transparent 40%),
+      var(--cream);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(74,63,53,.18);
+    padding: 0.32in 0.4in 0.28in;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Corner botanicals */
+  .sprig {
+    position: absolute;
+    width: 1.5in;
+    height: 1.5in;
+    opacity: .9;
+    pointer-events: none;
+  }
+  .sprig.tl { top: -0.18in; left: -0.22in; transform: rotate(0deg); }
+  .sprig.br { bottom: -0.18in; right: -0.22in; transform: rotate(180deg); }
+
+  .logo {
+    width: 1.85in;
+    height: auto;
+    margin-top: 0;
+  }
+  .brand-sub {
+    font-size: 8.5px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-top: -0.1in;
+    margin-bottom: 0.08in;
+  }
+
+  .tagline {
+    font-size: 9.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--cocoa);
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0.02in 0 0.1in;
+  }
+
+  .divider {
+    color: var(--terracotta);
+    font-size: 11px;
+    margin: 0.02in 0;
+  }
+
+  /* Handwriting note lines */
+  .notes {
+    width: 100%;
+    margin: 0.04in 0 0.1in;
+  }
+  .note-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin: 0.1in 0;
+  }
+  .note-label {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 15px;
+    color: var(--taupe);
+    white-space: nowrap;
+  }
+  .note-line {
+    flex: 1;
+    border-bottom: 1.4px dotted #c9bda9;
+    height: 0.16in;
+  }
+
+  /* QR block */
+  .qr-block {
+    display: flex;
+    align-items: center;
+    gap: 0.16in;
+    background: #fff;
+    border: 1px solid var(--sand);
+    border-radius: 12px;
+    padding: 0.1in 0.14in;
+    margin: 0.04in 0 0.02in;
+    width: 100%;
+  }
+  .qr-block img { width: 0.85in; height: 0.85in; display: block; }
+  .qr-text { text-align: left; }
+  .qr-text .scan {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--cocoa);
+    line-height: 1.2;
+    margin: 0 0 2px;
+  }
+  .qr-text .scan-sub {
+    font-size: 9px;
+    color: var(--taupe);
+    line-height: 1.35;
+  }
+
+  .thankyou {
+    font-family: "Dancing Script", cursive;
+    font-size: 28px;
+    color: var(--terracotta);
+    margin: 0.09in 0 0.02in;
+    line-height: 1;
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.14in;
+    font-size: 9.5px;
+    color: var(--cocoa);
+    margin-top: 0.06in;
+  }
+  .contact .item { display: flex; align-items: center; gap: 5px; }
+  .contact svg { width: 12px; height: 12px; fill: var(--terracotta); }
+  .contact .sep { color: var(--sand); }
+
+  @media print {
+    @page { size: 4in 6in; margin: 0; }
+    body { background: #fff; padding: 0; display: block; }
+    .toolbar { display: none; }
+    .card {
+      box-shadow: none;
+      border-radius: 0;
+      width: 4in;
+      height: 6in;
+    }
+  }
+
+  /* Clean, card-only view for previews (add #preview to the URL) */
+  body.previewmode { padding: 0; background: #efe9df; }
+  body.previewmode .toolbar { display: none; }
+</style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <p>Print at 4&quot;&times;6&quot;. Click below, then choose &ldquo;Save as PDF&rdquo; or your printer.</p>
+    <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <div class="card">
+    <!-- corner botanicals -->
+    <svg class="sprig tl" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none" stroke="#9CAA85" stroke-width="2.2" stroke-linecap="round">
+        <path d="M8 8 C34 26, 52 42, 70 78" />
+        <path d="M22 20 C30 18, 40 20, 46 28" />
+        <path d="M40 38 C50 34, 62 36, 68 44" />
+        <path d="M56 58 C66 56, 78 60, 82 68" />
+      </g>
+      <g fill="#9CAA85">
+        <ellipse cx="46" cy="26" rx="8" ry="4.4" transform="rotate(-28 46 26)"/>
+        <ellipse cx="68" cy="44" rx="8.5" ry="4.6" transform="rotate(-20 68 44)"/>
+        <ellipse cx="82" cy="68" rx="9" ry="4.8" transform="rotate(-14 82 68)"/>
+      </g>
+      <g fill="#C97C5D">
+        <circle cx="24" cy="14" r="3.1"/>
+        <circle cx="33" cy="10" r="2.6"/>
+        <circle cx="16" cy="24" r="2.6"/>
+      </g>
+    </svg>
+
+    <svg class="sprig br" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none" stroke="#9CAA85" stroke-width="2.2" stroke-linecap="round">
+        <path d="M8 8 C34 26, 52 42, 70 78" />
+        <path d="M22 20 C30 18, 40 20, 46 28" />
+        <path d="M40 38 C50 34, 62 36, 68 44" />
+        <path d="M56 58 C66 56, 78 60, 82 68" />
+      </g>
+      <g fill="#9CAA85">
+        <ellipse cx="46" cy="26" rx="8" ry="4.4" transform="rotate(-28 46 26)"/>
+        <ellipse cx="68" cy="44" rx="8.5" ry="4.6" transform="rotate(-20 68 44)"/>
+        <ellipse cx="82" cy="68" rx="9" ry="4.8" transform="rotate(-14 82 68)"/>
+      </g>
+      <g fill="#E0A085">
+        <circle cx="24" cy="14" r="3.1"/>
+        <circle cx="33" cy="10" r="2.6"/>
+        <circle cx="16" cy="24" r="2.6"/>
+      </g>
+    </svg>
+
+    <img class="logo" src="assets/jiya-logo.png" alt="Jiya Handmade Creations" />
+    <div class="brand-sub">Handmade Creations</div>
+
+    <div class="tagline">Handmade with love,<br/>made just for you.</div>
+
+    <div class="divider">&#10084;</div>
+
+    <div class="notes">
+      <div class="note-row">
+        <span class="note-label">For</span>
+        <span class="note-line"></span>
+      </div>
+      <div class="note-row">
+        <span class="note-label">A note</span>
+        <span class="note-line"></span>
+      </div>
+    </div>
+
+    <div class="qr-block">
+      <img src="assets/qr-jiya-site.png" alt="Scan to shop Jiya" />
+      <div class="qr-text">
+        <p class="scan">Scan to shop</p>
+        <p class="scan-sub">See all our handmade<br/>creations &amp; place an order</p>
+      </div>
+    </div>
+
+    <div class="thankyou">Thank you</div>
+
+    <div class="contact">
+      <span class="item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.22.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.42.37 1.05.42 2.22.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.42 2.22-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.17-1.05.37-2.22.42-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.22-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.42-.37-1.05-.42-2.22C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.42-2.22.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.17 1.05-.37 2.22-.42C8.42 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.5.01-4.74.07-.98.04-1.51.21-1.86.35-.47.18-.8.4-1.15.75-.35.35-.57.68-.75 1.15-.14.35-.31.88-.35 1.86-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.04.98.21 1.51.35 1.86.18.47.4.8.75 1.15.35.35.68.57 1.15.75.35.14.88.31 1.86.35 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c.98-.04 1.51-.21 1.86-.35.47-.18.8-.4 1.15-.75.35-.35.57-.68.75-1.15.14-.35.31-.88.35-1.86.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.04-.98-.21-1.51-.35-1.86a3.1 3.1 0 0 0-.75-1.15 3.1 3.1 0 0 0-1.15-.75c-.35-.14-.88-.31-1.86-.35C15.5 4.01 15.15 4 12 4zm0 3.06A4.94 4.94 0 1 1 12 17a4.94 4.94 0 0 1 0-9.88zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28zm5.15-1.02a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0z"/></svg>
+        jiya_handmade_creations
+      </span>
+      <span class="sep">|</span>
+      <span class="item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.02zM12.05 20.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14 0-.31-.01-.47-.01a.9.9 0 0 0-.65.31c-.22.25-.85.83-.85 2.02s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+        9980687834
+      </span>
+    </div>
+  </div>
+
+  <script>
+    if (location.hash === "#preview") document.body.classList.add("previewmode");
+  </script>
+</body>
+</html>
