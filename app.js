@@ -50,9 +50,14 @@
       .replace(/>/g, "&gt;");
   }
 
-  function waMessage(productName) {
+  function waMessage(productName, imagePath) {
     var base = "Hi Jiya! I'd like to order";
     var msg = productName ? base + ": " + productName : base + " from your creations.";
+    if (imagePath) {
+      var absolute = imagePath;
+      try { absolute = new URL(imagePath, document.baseURI).href; } catch (e) {}
+      msg += "\n" + absolute;
+    }
     return "https://wa.me/" + biz.whatsapp + "?text=" + encodeURIComponent(msg);
   }
 
@@ -191,7 +196,7 @@
       order.textContent = "Sold out";
     } else {
       order.className = "card-order";
-      order.href = waMessage(p.name);
+      order.href = waMessage(p.name, p.image);
       order.target = "_blank";
       order.rel = "noopener";
       order.textContent = "Order";
