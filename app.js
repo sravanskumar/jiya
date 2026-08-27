@@ -1,8 +1,10 @@
 /* =========================================================================
    Jiya Handmade Creations — site logic
    -------------------------------------------------------------------------
-   Products come from Airtable (see config.js). If Airtable isn't connected
-   yet, the sample products in content.js are shown instead.
+   Products are read from products.json, which is kept up to date
+   automatically from Airtable by a GitHub Action. No secrets live here.
+   If products.json can't be loaded (e.g. opening the file directly on a
+   computer), the sample products in content.js are shown instead.
    You should not need to edit this file.
    ========================================================================= */
 
@@ -10,10 +12,9 @@
   "use strict";
 
   var data = window.JIYA || {};
-  var cfg = (window.JIYA_CONFIG && window.JIYA_CONFIG.airtable) || {};
   var biz = data.business || {};
 
-  var products = [];          // filled from Airtable or sample data
+  var products = [];
   var currentFilter = "All";
 
   function $(id) { return document.getElementById(id); }
@@ -56,80 +57,33 @@
   }
 
   /* ---------------- Data loading ---------------- */
-  function airtableConfigured() {
-    return cfg.token && cfg.baseId && cfg.tableName;
-  }
-
-  function loadProducts() {
-    if (!airtableConfigured()) {
-      products = normalizeSample(data.sampleProducts || []);
-      render();
-      return;
-    }
-
-    setGridMessage("Loading our creations…");
-
-    var url = "https://api.airtable.com/v0/" +
-      encodeURIComponent(cfg.baseId) + "/" +
-      encodeURIComponent(cfg.tableName) + "?pageSize=100";
-
-    fetch(url, { headers: { Authorization: "Bearer " + cfg.token } })
-      .then(function (res) {
-        if (!res.ok) throw new Error("Airtable responded " + res.status);
-        return res.json();
-      })
-      .then(function (json) {
-        products = (json.records || []).map(fromAirtable).filter(function (p) {
-          return p.visible !== false && p.name;
-        });
-        render();
-      })
-      .catch(function (err) {
-        console.warn("Could not load from Airtable, showing sample data.", err);
-        products = normalizeSample(data.sampleProducts || []);
-        render();
-      });
-  }
-
-  // Map an Airtable record to our product shape. Field names are matched
-  // case-insensitively so small differences (e.g. "Sold Out") still work.
-  function fromAirtable(rec) {
-    var f = rec.fields || {};
-    function get(names) {
-      for (var k in f) {
-        for (var i = 0; i < names.length; i++) {
-          if (k.toLowerCase().replace(/\s+/g, "") === names[i]) return f[k];
-        }
-      }
-      return undefined;
-    }
-    var photo = get(["photo", "image", "photos", "images"]);
-    var imageUrl = "";
-    if (Array.isArray(photo) && photo.length) {
-      var a = photo[0];
-      imageUrl = (a.thumbnails && a.thumbnails.large && a.thumbnails.large.url) || a.url || "";
-    }
-    var visible = get(["visible", "show", "active", "publish", "published"]);
-    return {
-      name: get(["name", "product", "title"]) || "",
-      category: get(["category", "type"]) || "",
-      price: get(["price"]) || "",
-      description: get(["description", "desc", "details"]) || "",
-      image: imageUrl,
-      soldOut: !!get(["soldout", "sold"]),
-      featured: !!get(["featured", "new"]),
-      visible: visible === undefined ? true : !!visible,
-    };
-  }
-
-  function normalizeSample(list) {
-    return list.map(function (p) {
+  function normalize(list) {
+    return (list || []).map(function (p) {
       return {
         name: p.name || "", category: p.category || "", price: p.price || "",
         description: p.description || "", image: p.image || "",
-        soldOut: !!p.soldOut, featured: !!p.featured, visible: true,
+        soldOut: !!p.soldOut, featured: !!p.featured,
+        visible: p.visible === undefined ? true : !!p.visible,
       };
-    });
+    }).filter(function (p) { return p.visible !== false && p.name; });
+  }
+
+  function loadProducts() {
+    setGridMessage("Loading our creations…");
+    fetch("products.json", { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("products.json " + res.status);
+        return res.json();
+      })
+      .then(function (json) {
+        products = normalize(json.products || json);
+        render();
+      })
+      .catch(function (err) {
+        console.warn("Using sample products (products.json not available).", err);
+        products = normalize(data.sampleProducts || []);
+        render();
+      });
   }
 
   /* ---------------- Rendering ---------------- */

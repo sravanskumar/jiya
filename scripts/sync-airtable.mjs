@@ -1,0 +1,138 @@
+/* =========================================================================
+   Sync products from Airtable into the website.
+   -------------------------------------------------------------------------
+   Runs in GitHub Actions (and can be run locally). Reads the Airtable base
+   using a token from the environment (never stored in the repo), downloads
+   product photos, and writes products.json which the website reads.
+
+   Env vars:
+     AIRTABLE_TOKEN     (required) read-only personal access token
+     AIRTABLE_BASE_ID   (required) e.g. app27MQgngwYt6BMU
+     AIRTABLE_TABLE     (optional) defaults to "Products"
+   ========================================================================= */
+
+import fs from "node:fs";
+import path from "node:path";
+
+const TOKEN = process.env.AIRTABLE_TOKEN;
+const BASE = process.env.AIRTABLE_BASE_ID;
+const TABLE = process.env.AIRTABLE_TABLE || "Products";
+
+if (!TOKEN || !BASE) {
+  console.error("Missing AIRTABLE_TOKEN or AIRTABLE_BASE_ID.");
+  process.exit(1);
+}
+
+const IMG_DIR = path.join("images", "products");
+fs.mkdirSync(IMG_DIR, { recursive: true });
+
+// Match Airtable fields loosely (case/space-insensitive).
+function pick(fields, names) {
+  for (const key of Object.keys(fields)) {
+    const norm = key.toLowerCase().replace(/\s+/g, "");
+    if (names.includes(norm)) return fields[key];
+  }
+  return undefined;
+}
+
+async function fetchAllRecords() {
+  let records = [];
+  let offset;
+  do {
+    const url = new URL(
+      `https://api.airtable.com/v0/${BASE}/${encodeURIComponent(TABLE)}`
+    );
+    url.searchParams.set("pageSize", "100");
+    if (offset) url.searchParams.set("offset", offset);
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    });
+    if (!res.ok) {
+      throw new Error(`Airtable ${res.status}: ${await res.text()}`);
+    }
+    const data = await res.json();
+    records = records.concat(data.records || []);
+    offset = data.offset;
+  } while (offset);
+  return records;
+}
+
+function extFor(contentType, url) {
+  const ct = (contentType || "").toLowerCase();
+  if (ct.includes("png")) return "png";
+  if (ct.includes("webp")) return "webp";
+  if (ct.includes("gif")) return "gif";
+  if (ct.includes("jpeg") || ct.includes("jpg")) return "jpg";
+  const m = (url || "").match(/\.(png|jpe?g|webp|gif)(\?|$)/i);
+  return m ? m[1].toLowerCase().replace("jpeg", "jpg") : "jpg";
+}
+
+async function downloadImage(url, id) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`image ${res.status}`);
+  const buf = Buffer.from(await res.arrayBuffer());
+  const ext = extFor(res.headers.get("content-type"), url);
+  const rel = path.join(IMG_DIR, `${id}.${ext}`);
+  fs.writeFileSync(rel, buf);
+  return rel.split(path.sep).join("/");
+}
+
+async function main() {
+  const records = await fetchAllRecords();
+  const keepImages = new Set();
+  const products = [];
+
+  for (const rec of records) {
+    const f = rec.fields || {};
+    const name = pick(f, ["name", "product", "title"]) || "";
+    if (!name) continue;
+
+    let image = "";
+    const photo = pick(f, ["photo", "image", "photos", "images"]);
+    if (Array.isArray(photo) && photo.length) {
+      const url =
+        (photo[0].thumbnails &&
+          photo[0].thumbnails.large &&
+          photo[0].thumbnails.large.url) ||
+        photo[0].url;
+      if (url) {
+        try {
+          image = await downloadImage(url, rec.id);
+          keepImages.add(path.basename(image));
+        } catch (e) {
+          console.warn(`Could not download image for "${name}":`, e.message);
+        }
+      }
+    }
+
+    const visible = pick(f, ["visible", "show", "active", "publish", "published"]);
+    products.push({
+      name,
+      category: pick(f, ["category", "type"]) || "",
+      price: pick(f, ["price"]) || "",
+      description: pick(f, ["description", "desc", "details"]) || "",
+      image,
+      soldOut: !!pick(f, ["soldout", "sold"]),
+      featured: !!pick(f, ["featured", "new"]),
+      visible: visible === undefined ? true : !!visible,
+    });
+  }
+
+  // Remove images that are no longer referenced.
+  for (const file of fs.readdirSync(IMG_DIR)) {
+    if (file === ".gitkeep") continue;
+    if (!keepImages.has(file)) fs.rmSync(path.join(IMG_DIR, file));
+  }
+
+  const out = {
+    updatedAt: new Date().toISOString(),
+    products,
+  };
+  fs.writeFileSync("products.json", JSON.stringify(out, null, 2) + "\n");
+  console.log(`Wrote products.json with ${products.length} products.`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
