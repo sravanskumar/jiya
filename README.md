@@ -36,12 +36,21 @@ connected, it shows sample products so you can see the design.
 
 ---
 
-## Publishing the website online (one-time, technical)
+## Live website
 
-To give the site a public link for the Instagram bio, host it for free on
-**Netlify** or **GitHub Pages** (any static host works — it's plain HTML/CSS/JS,
-no build step). After that, the owner never needs the code again — products
-update live from Airtable.
+🌐 **https://sravanskumar.github.io/jiya/** — hosted free on GitHub Pages.
+
+Repo: https://github.com/sravanskumar/jiya
+
+Because products live in Airtable, the owner never touches this repo for
+day-to-day updates. The site only needs a re-deploy if the design or the
+one-time settings (`config.js` / `content.js`) change, done with:
+
+```bash
+git add . && git commit -m "Update settings" && git push
+```
+
+GitHub Pages rebuilds automatically within a minute.
 
 ---
 
