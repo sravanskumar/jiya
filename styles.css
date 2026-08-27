@@ -300,6 +300,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 .empty-note { text-align: center; color: var(--taupe); margin-top: 1rem; }
+.grid-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--taupe);
+  padding: 2rem 0;
+}
 
 /* ---------- About ---------- */
 .section-about { background: linear-gradient(180deg, transparent, rgba(156, 170, 133, 0.08)); }

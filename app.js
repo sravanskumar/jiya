@@ -1,22 +1,29 @@
 /* =========================================================================
    Jiya Handmade Creations — site logic
-   Reads everything from content.js (window.JIYA) and renders the page.
-   You should not need to edit this file — edit content.js instead.
+   -------------------------------------------------------------------------
+   Products come from Airtable (see config.js). If Airtable isn't connected
+   yet, the sample products in content.js are shown instead.
+   You should not need to edit this file.
    ========================================================================= */
 
 (function () {
   "use strict";
 
-  var data = window.JIYA;
-  if (!data) {
-    console.error("content.js did not load. Check the file for a typo.");
-    return;
-  }
-
+  var data = window.JIYA || {};
+  var cfg = (window.JIYA_CONFIG && window.JIYA_CONFIG.airtable) || {};
   var biz = data.business || {};
 
-  /* ---- Helpers ---- */
+  var products = [];          // filled from Airtable or sample data
+  var currentFilter = "All";
+
   function $(id) { return document.getElementById(id); }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
 
   function waMessage(productName) {
     var base = "Hi Jiya! I'd like to order";
@@ -24,13 +31,16 @@
     return "https://wa.me/" + biz.whatsapp + "?text=" + encodeURIComponent(msg);
   }
 
-  /* ---- Fill in business text ---- */
+  function prettyPhone(num) {
+    return num ? String(num).replace(/^91/, "") : "";
+  }
+
+  /* ---------------- Static text ---------------- */
   function fillText() {
     var hero = data.hero || {};
     $("hero-heading").textContent = hero.heading || biz.name || "";
     $("hero-subheading").textContent = hero.subheading || "";
-    var heroBtn = $("hero-button");
-    heroBtn.textContent = hero.buttonText || "Shop now";
+    $("hero-button").textContent = hero.buttonText || "Shop now";
 
     var about = data.about || {};
     $("about-heading").textContent = about.heading || "Our Story";
@@ -38,28 +48,94 @@
 
     $("contact-whatsapp").href = waMessage("");
     $("contact-instagram").href = biz.instagramUrl || "#";
-    $("contact-location").textContent = biz.location
-      ? "📍 " + biz.location
-      : "";
+    $("contact-location").textContent = biz.location ? "📍 " + biz.location : "";
 
     $("footer-contact").innerHTML =
-      "@" + (biz.instagram || "") + " &nbsp;·&nbsp; WhatsApp " + prettyPhone(biz.whatsapp);
+      "@" + esc(biz.instagram || "") + " &nbsp;·&nbsp; WhatsApp " + esc(prettyPhone(biz.whatsapp));
     $("year").textContent = new Date().getFullYear();
   }
 
-  function prettyPhone(num) {
-    if (!num) return "";
-    // strip country code 91 for display if present
-    var n = String(num).replace(/^91/, "");
-    return n;
+  /* ---------------- Data loading ---------------- */
+  function airtableConfigured() {
+    return cfg.token && cfg.baseId && cfg.tableName;
   }
 
-  /* ---- Build category filters ---- */
-  var currentFilter = "All";
+  function loadProducts() {
+    if (!airtableConfigured()) {
+      products = normalizeSample(data.sampleProducts || []);
+      render();
+      return;
+    }
 
+    setGridMessage("Loading our creations…");
+
+    var url = "https://api.airtable.com/v0/" +
+      encodeURIComponent(cfg.baseId) + "/" +
+      encodeURIComponent(cfg.tableName) + "?pageSize=100";
+
+    fetch(url, { headers: { Authorization: "Bearer " + cfg.token } })
+      .then(function (res) {
+        if (!res.ok) throw new Error("Airtable responded " + res.status);
+        return res.json();
+      })
+      .then(function (json) {
+        products = (json.records || []).map(fromAirtable).filter(function (p) {
+          return p.visible !== false && p.name;
+        });
+        render();
+      })
+      .catch(function (err) {
+        console.warn("Could not load from Airtable, showing sample data.", err);
+        products = normalizeSample(data.sampleProducts || []);
+        render();
+      });
+  }
+
+  // Map an Airtable record to our product shape. Field names are matched
+  // case-insensitively so small differences (e.g. "Sold Out") still work.
+  function fromAirtable(rec) {
+    var f = rec.fields || {};
+    function get(names) {
+      for (var k in f) {
+        for (var i = 0; i < names.length; i++) {
+          if (k.toLowerCase().replace(/\s+/g, "") === names[i]) return f[k];
+        }
+      }
+      return undefined;
+    }
+    var photo = get(["photo", "image", "photos", "images"]);
+    var imageUrl = "";
+    if (Array.isArray(photo) && photo.length) {
+      var a = photo[0];
+      imageUrl = (a.thumbnails && a.thumbnails.large && a.thumbnails.large.url) || a.url || "";
+    }
+    var visible = get(["visible", "show", "active", "publish", "published"]);
+    return {
+      name: get(["name", "product", "title"]) || "",
+      category: get(["category", "type"]) || "",
+      price: get(["price"]) || "",
+      description: get(["description", "desc", "details"]) || "",
+      image: imageUrl,
+      soldOut: !!get(["soldout", "sold"]),
+      featured: !!get(["featured", "new"]),
+      visible: visible === undefined ? true : !!visible,
+    };
+  }
+
+  function normalizeSample(list) {
+    return list.map(function (p) {
+      return {
+        name: p.name || "", category: p.category || "", price: p.price || "",
+        description: p.description || "", image: p.image || "",
+        soldOut: !!p.soldOut, featured: !!p.featured, visible: true,
+      };
+    });
+  }
+
+  /* ---------------- Rendering ---------------- */
   function categories() {
     var set = ["All"];
-    (data.products || []).forEach(function (p) {
+    products.forEach(function (p) {
       if (p.category && set.indexOf(p.category) === -1) set.push(p.category);
     });
     return set;
@@ -74,41 +150,37 @@
       btn.textContent = cat;
       btn.addEventListener("click", function () {
         currentFilter = cat;
-        renderFilters();
-        renderProducts();
+        render();
       });
       wrap.appendChild(btn);
     });
   }
 
-  /* ---- Build product cards ---- */
-  function renderProducts() {
+  function setGridMessage(msg) {
+    $("product-grid").innerHTML = '<p class="grid-message">' + esc(msg) + "</p>";
+    $("empty-note").hidden = true;
+  }
+
+  function render() {
+    renderFilters();
     var grid = $("product-grid");
     grid.innerHTML = "";
 
-    var list = (data.products || []).filter(function (p) {
+    var list = products.filter(function (p) {
       return currentFilter === "All" || p.category === currentFilter;
     });
 
     $("empty-note").hidden = list.length !== 0;
-
-    list.forEach(function (p) {
-      grid.appendChild(card(p));
-    });
+    list.forEach(function (p) { grid.appendChild(card(p)); });
   }
 
   function card(p) {
     var el = document.createElement("article");
     el.className = "card";
 
-    // ribbon
-    if (p.soldOut) {
-      el.appendChild(ribbon("Sold out", "soldout"));
-    } else if (p.featured) {
-      el.appendChild(ribbon("New", ""));
-    }
+    if (p.soldOut) el.appendChild(ribbon("Sold out", "soldout"));
+    else if (p.featured) el.appendChild(ribbon("New", ""));
 
-    // media
     var media = document.createElement("div");
     media.className = "card-media";
     if (p.image) {
@@ -116,22 +188,19 @@
       img.src = p.image;
       img.alt = p.name || "Jiya handmade product";
       img.loading = "lazy";
-      img.onerror = function () {
-        media.innerHTML = '<span class="card-placeholder">jiya</span>';
-      };
+      img.onerror = function () { media.innerHTML = '<span class="card-placeholder">jiya</span>'; };
       media.appendChild(img);
     } else {
       media.innerHTML = '<span class="card-placeholder">jiya</span>';
     }
     el.appendChild(media);
 
-    // body
     var body = document.createElement("div");
     body.className = "card-body";
     body.innerHTML =
       (p.category ? '<span class="card-cat">' + esc(p.category) + "</span>" : "") +
-      '<h3 class="card-name">' + esc(p.name || "") + "</h3>" +
-      '<p class="card-desc">' + esc(p.description || "") + "</p>";
+      '<h3 class="card-name">' + esc(p.name) + "</h3>" +
+      '<p class="card-desc">' + esc(p.description) + "</p>";
 
     var foot = document.createElement("div");
     foot.className = "card-foot";
@@ -151,7 +220,6 @@
     foot.appendChild(order);
     body.appendChild(foot);
     el.appendChild(body);
-
     return el;
   }
 
@@ -162,15 +230,7 @@
     return r;
   }
 
-  function esc(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
-  /* ---- Go ---- */
+  /* ---------------- Go ---------------- */
   fillText();
-  renderFilters();
-  renderProducts();
+  loadProducts();
 })();
