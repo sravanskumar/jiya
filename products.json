@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-27T12:35:31.697Z",
+  "updatedAt": "2026-08-28T17:39:59.855Z",
   "products": [
     {
       "name": "Woollen Mobile Pouch",
@@ -7,6 +7,19 @@
       "price": "From ₹200",
       "description": "Snug, hand-knitted pouch for your phone. Custom colours available.",
       "image": "",
+      "soldOut": false,
+      "featured": true,
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": ""
+    },
+    {
+      "name": "Wallets",
+      "category": "Wallets",
+      "price": "400",
+      "description": "Mini wallet for storing cash, cards and other small essentials.\n\nSize - 4 x 3 inches\nFabric - Cotton\nColour - Maroon and White",
+      "image": "images/products/recSlTPOJELNsMUBi.jpg",
       "soldOut": false,
       "featured": true,
       "visible": true,
@@ -24,8 +37,8 @@
       "featured": false,
       "visible": true,
       "status": "shop",
-      "collection": "Rakhi 2026",
-      "date": "2026-08-01"
+      "collection": "",
+      "date": ""
     },
     {
       "name": "Hand-Knitted Woollen Cap",
