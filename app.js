@@ -63,10 +63,27 @@
     }
   }
 
-  function waMessage(productName, imagePath) {
-    var base = "Hi Jiya! I'd like to order";
-    var msg = productName ? base + ": " + productName : base + " from your creations.";
-    var photo = absoluteUrl(imagePath);
+  function statusOf(p) {
+    var s = String((p && p.status) || "").trim().toLowerCase();
+    if (s === "archive" || s === "archived" || s === "past") return "archive";
+    if (s === "hidden" || s === "hide") return "hidden";
+    if (p && p.visible === false) return "hidden";
+    return "shop";
+  }
+
+  function waMessage(p) {
+    if (!p || !p.name) {
+      var general = "Hi Jiya! I'd like to order from your creations.";
+      return "https://wa.me/" + biz.whatsapp + "?text=" + encodeURIComponent(general);
+    }
+    var onDemand = !!(p.soldOut || statusOf(p) === "archive");
+    var base = onDemand
+      ? "Hi Jiya! I'd like to order on demand"
+      : "Hi Jiya! I'd like to order";
+    var msg = p.collection
+      ? base + " from " + p.collection + ": " + p.name
+      : base + ": " + p.name;
+    var photo = absoluteUrl(p.image);
     if (photo) msg += "\n" + photo;
     return "https://wa.me/" + biz.whatsapp + "?text=" + encodeURIComponent(msg);
   }
@@ -86,7 +103,7 @@
     $("about-heading").textContent = about.heading || "Our Story";
     $("about-text").textContent = about.text || "";
 
-    $("contact-whatsapp").href = waMessage("");
+    $("contact-whatsapp").href = waMessage(null);
     $("contact-instagram").href = biz.instagramUrl || "#";
     $("contact-location").textContent = biz.location ? "📍 " + biz.location : "";
 
@@ -98,13 +115,20 @@
   /* ---------------- Data loading ---------------- */
   function normalize(list) {
     return (list || []).map(function (p) {
-      return {
+      var item = {
         name: p.name || "", category: p.category || "", price: p.price || "",
         description: p.description || "", image: p.image || "",
         soldOut: !!p.soldOut, featured: !!p.featured,
         visible: p.visible === undefined ? true : !!p.visible,
+        status: p.status || "",
+        collection: p.collection || "",
+        date: p.date || "",
       };
-    }).filter(function (p) { return p.visible !== false && p.name; });
+      item.status = statusOf(item);
+      return item;
+    }).filter(function (p) {
+      return p.name && statusOf(p) === "shop";
+    });
   }
 
   function loadProducts() {
@@ -201,16 +225,12 @@
     foot.innerHTML = p.price ? '<span class="card-price">' + esc(p.price) + "</span>" : "<span></span>";
 
     var order = document.createElement("a");
-    if (p.soldOut) {
-      order.className = "card-order disabled";
-      order.textContent = "Sold out";
-    } else {
-      order.className = "card-order";
-      order.href = waMessage(p.name, p.image);
-      order.target = "_blank";
-      order.rel = "noopener";
-      order.textContent = "Order";
-    }
+    var onDemand = !!p.soldOut;
+    order.className = "card-order";
+    order.href = waMessage(p);
+    order.target = "_blank";
+    order.rel = "noopener";
+    order.textContent = onDemand ? "Order on demand" : "Order";
     foot.appendChild(order);
     body.appendChild(foot);
     el.appendChild(body);

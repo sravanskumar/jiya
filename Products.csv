@@ -1,5 +1,5 @@
-Name,Category,Price,Description,SoldOut,Featured,Visible
-Crochet Rakhi,Festive,From ₹80,"Handmade woollen rakhi in festive colours.",true,,true
-Woollen Mobile Pouch,Pouches,From ₹200,"Snug, hand-knitted pouch for your phone. Custom colours available.",,true,true
-Bag & Mobile Charm,Charms & Keychains,From ₹60,"Little crochet hangings for your bag or phone.",,,true
-Hand-Knitted Woollen Cap,Caps & Beanies,From ₹250,"Warm, soft caps for babies, kids and adults.",,true,true
+Name,Category,Price,Description,SoldOut,Featured,Visible,Status,Collection,Date
+Crochet Rakhi,Festive,From ₹80,"Handmade woollen rakhi in festive colours.",true,,true,Archive,Rakhi 2026,2026-08-01
+Woollen Mobile Pouch,Pouches,From ₹200,"Snug, hand-knitted pouch for your phone. Custom colours available.",,true,true,Shop,,
+Bag & Mobile Charm,Charms & Keychains,From ₹60,"Little crochet hangings for your bag or phone.",,,true,Shop,,
+Hand-Knitted Woollen Cap,Caps & Beanies,From ₹250,"Warm, soft caps for babies, kids and adults.",,true,true,Shop,,

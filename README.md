@@ -3,6 +3,11 @@
 A simple website for Jiya Handmade Creations, designed so that **a non-technical
 person can add and edit products with no coding and no commits.**
 
+The **home page** is the current Shop. Finished festive drops live in
+**[Past collections](https://sravanskumar.github.io/jiya/collections/)**, grouped
+by season (for example Rakhi 2026). Those pages are real HTML so search engines
+can find them. Sold-out pieces stay orderable **on demand** via WhatsApp.
+
 ## How products work
 
 Products are managed in **Airtable** — a free, friendly app (like a smart
@@ -31,10 +36,14 @@ connected, it shows sample products so you can see the design.
 
 | File | What it is | Who touches it |
 | --- | --- | --- |
-| **Airtable app** | Where products live | 🧑 The owner (add/edit products here) |
+| **Airtable app** | Where products live (including Status / Collection / Date) | 🧑 The owner (add/edit products here) |
 | `products.json` | Auto-generated product data | 🤖 Written by the sync job — don't edit |
 | `images/products/` | Auto-downloaded product photos | 🤖 Written by the sync job |
-| `scripts/sync-airtable.mjs` | The sync script | ⚙️ Setup/maintenance |
+| `collections/` | Past-season pages (HTML) | 🤖 Written by the sync job |
+| `sitemap.xml` | Search-engine map of shop + collections | 🤖 Written by the sync job |
+| `robots.txt` | Points crawlers at the sitemap | ⚙️ Once |
+| `scripts/sync-airtable.mjs` | Fetches Airtable | ⚙️ Setup/maintenance |
+| `scripts/build-pages.mjs` | Builds collection pages + sitemap | ⚙️ Setup/maintenance |
 | `.github/workflows/sync-airtable.yml` | Runs the sync every ~10 min | ⚙️ Setup/maintenance |
 | `content.js` | Business name, contact, intro text | ⚙️ Once, during setup |
 | `BRAND_GUIDELINES.md` | Brand colours, fonts, voice | 📖 Reference |
@@ -46,6 +55,8 @@ connected, it shows sample products so you can see the design.
 ## Live website
 
 🌐 **https://sravanskumar.github.io/jiya/** — hosted free on GitHub Pages.
+
+Past collections: **https://sravanskumar.github.io/jiya/collections/**
 
 Repo: https://github.com/sravanskumar/jiya
 

@@ -13,6 +13,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { buildPages, normalizeStatus } from "./build-pages.mjs";
 
 const TOKEN = process.env.AIRTABLE_TOKEN;
 const BASE = process.env.AIRTABLE_BASE_ID;
@@ -106,7 +107,12 @@ async function main() {
     }
 
     const visible = pick(f, ["visible", "show", "active", "publish", "published"]);
-    products.push({
+    const rawDate = pick(f, ["date", "collectiondate", "seasondate", "month"]);
+    const date =
+      typeof rawDate === "string"
+        ? (rawDate.match(/^(\d{4}-\d{2}-\d{2})/) || ["", ""])[1]
+        : "";
+    const item = {
       name,
       category: pick(f, ["category", "type"]) || "",
       price: pick(f, ["price"]) || "",
@@ -115,7 +121,15 @@ async function main() {
       soldOut: !!pick(f, ["soldout", "sold"]),
       featured: !!pick(f, ["featured", "new"]),
       visible: visible === undefined ? true : !!visible,
+      status: "",
+      collection: String(pick(f, ["collection", "season", "drop", "collectionname"]) || "").trim(),
+      date,
+    };
+    item.status = normalizeStatus({
+      status: pick(f, ["status", "placement", "stage"]),
+      visible: item.visible,
     });
+    products.push(item);
   }
 
   // Remove images that are no longer referenced.
@@ -137,17 +151,20 @@ async function main() {
     previous &&
     JSON.stringify(previous.products) === JSON.stringify(products);
 
+  const out = {
+    updatedAt: unchanged ? previous.updatedAt : new Date().toISOString(),
+    products: unchanged ? previous.products : products,
+  };
+
   if (unchanged) {
     console.log(`No product changes (${products.length} products). Leaving products.json as is.`);
-    return;
+  } else {
+    fs.writeFileSync("products.json", JSON.stringify({ updatedAt: out.updatedAt, products }, null, 2) + "\n");
+    console.log(`Wrote products.json with ${products.length} products.`);
   }
 
-  const out = {
-    updatedAt: new Date().toISOString(),
-    products,
-  };
-  fs.writeFileSync("products.json", JSON.stringify(out, null, 2) + "\n");
-  console.log(`Wrote products.json with ${products.length} products.`);
+  const pages = buildPages(out.products, { updatedAt: out.updatedAt });
+  console.log(`Collection pages: ${pages.collections} season(s), ${pages.wrote} file(s) written.`);
 }
 
 main().catch((err) => {

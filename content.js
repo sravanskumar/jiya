@@ -45,9 +45,11 @@ window.JIYA = {
      ------------------------------------------------------------------------- */
   sampleProducts: [
     { name: "Crochet Rakhi", category: "Festive", price: "From ₹80",
-      description: "Handmade woollen rakhi in festive colours.", image: "", soldOut: true, featured: false },
+      description: "Handmade woollen rakhi in festive colours.", image: "", soldOut: true, featured: false,
+      status: "shop", collection: "Rakhi 2026", date: "2026-08-01" },
     { name: "Woollen Mobile Pouch", category: "Pouches", price: "From ₹200",
-      description: "Snug, hand-knitted pouch for your phone. Custom colours available.", image: "", soldOut: false, featured: true },
+      description: "Snug, hand-knitted pouch for your phone. Custom colours available.", image: "", soldOut: false, featured: true,
+      status: "shop", collection: "", date: "" },
     { name: "AirPods Pouch", category: "Pouches", price: "From ₹180",
       description: "Cosy little pouch to keep your earbuds safe.", image: "", soldOut: false, featured: false },
     { name: "Bag & Mobile Charm", category: "Charms & Keychains", price: "From ₹60",

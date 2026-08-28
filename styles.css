@@ -135,7 +135,8 @@ a { color: inherit; text-decoration: none; }
   background: var(--terracotta);
   transition: width 0.2s ease;
 }
-.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover::after,
+.nav-links a[aria-current="page"]::after { width: 100%; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -315,19 +316,22 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
+  flex-wrap: wrap;
   padding-top: 1.1rem;
   border-top: 1px solid rgba(234, 224, 210, 0.7);
 }
 .card-price { font-weight: 600; color: var(--cocoa); font-size: 1.02rem; }
 .card-order {
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.6rem 1.3rem;
+  padding: 0.55rem 1rem;
   background: transparent;
   color: var(--terracotta);
   border: 1.5px solid var(--terracotta);
   border-radius: 999px;
+  text-align: center;
+  white-space: nowrap;
   transition: background 0.25s ease, color 0.25s ease;
 }
 .card-order:hover { background: var(--terracotta); color: #fff; }
@@ -338,7 +342,34 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-.empty-note { text-align: center; color: var(--taupe); margin-top: 1rem; }
+.section-note a {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.empty-note a {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Collection archive ---------- */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2.2rem;
+}
+a.collection-card { color: inherit; }
+.collection-cta {
+  margin: 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(234, 224, 210, 0.7);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight: 600;
+}
 .grid-message {
   grid-column: 1 / -1;
   text-align: center;
@@ -407,7 +438,7 @@ a { color: inherit; text-decoration: none; }
   }
   .brand { align-items: center; text-align: center; }
   .brand-script { font-size: 1.75rem; }
-  .nav-links { gap: 1.5rem; }
+  .nav-links { gap: 1.15rem; flex-wrap: wrap; justify-content: center; }
   .nav-links a { font-size: 0.7rem; letter-spacing: 0.12em; }
 
   .hero { padding: 4.5rem 0 4rem; }

@@ -9,7 +9,10 @@
       "image": "",
       "soldOut": false,
       "featured": true,
-      "visible": true
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": ""
     },
     {
       "name": "Crochet Rakhi",
@@ -19,7 +22,10 @@
       "image": "images/products/recSxWD71sYirhQzr.png",
       "soldOut": true,
       "featured": false,
-      "visible": true
+      "visible": true,
+      "status": "shop",
+      "collection": "Rakhi 2026",
+      "date": "2026-08-01"
     },
     {
       "name": "Hand-Knitted Woollen Cap",
@@ -29,7 +35,10 @@
       "image": "",
       "soldOut": false,
       "featured": true,
-      "visible": true
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": ""
     },
     {
       "name": "Bag & Mobile Charm",
@@ -39,7 +48,10 @@
       "image": "",
       "soldOut": false,
       "featured": false,
-      "visible": true
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": ""
     }
   ]
 }
