@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-28T17:39:59.855Z",
+  "updatedAt": "2026-08-29T13:47:29.640Z",
   "products": [
     {
       "name": "Woollen Mobile Pouch",
@@ -58,9 +58,9 @@
       "category": "Charms & Keychains",
       "price": "From ₹60",
       "description": "Little crochet hangings for your bag or phone.",
-      "image": "",
+      "image": "images/products/recyAkn8aE223EnUD.png",
       "soldOut": false,
-      "featured": false,
+      "featured": true,
       "visible": true,
       "status": "shop",
       "collection": "",
