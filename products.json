@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-09-03T11:12:56.705Z",
+  "updatedAt": "2026-09-03T11:42:02.365Z",
   "products": [
     {
       "name": "Woollen Mobile Pouch",
       "category": "Pouches",
       "price": "From ₹200",
       "description": "Snug, hand-knitted pouch for your phone. Custom colours available.",
-      "image": "",
+      "image": "images/products/rec4HHAHXjD60CbbJ.png",
       "soldOut": false,
       "featured": true,
       "visible": true,
@@ -45,7 +45,7 @@
       "category": "Caps & Beanies",
       "price": "From ₹250",
       "description": "Warm, soft caps for babies, kids and adults.",
-      "image": "",
+      "image": "images/products/reco2Iw6talYsi1dD.png",
       "soldOut": false,
       "featured": true,
       "visible": true,
