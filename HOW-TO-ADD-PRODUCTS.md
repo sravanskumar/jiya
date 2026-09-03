@@ -2,6 +2,10 @@
 
 **No coding. No computer commands. Just an app on your phone or laptop.**
 
+The live shop is **[jiyahandmade.com](https://jiyahandmade.com/)**. Hosting and
+domain details (GitHub + Cloudflare) are in [HOSTING.md](HOSTING.md) — you do
+not need that file to add products.
+
 > **Do this once in Airtable** (or the next automatic sync will drop the season
 > page): add columns **Status**, **Collection**, and **Date** (see below). For
 > Crochet Rakhi, set Collection to `Rakhi 2026`, Date to `1 Aug 2026`, and

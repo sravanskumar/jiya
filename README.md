@@ -27,8 +27,9 @@ There is **nothing to commit** and **no code to edit** for day-to-day updates.
 
 ## Preview the website
 
-Double-click **`index.html`** to open it in a browser. Until Airtable is
-connected, it shows sample products so you can see the design.
+Double-click **`index.html`** to open it in a browser. Product photos load
+best when the folder is served as a site (GitHub Pages or a local web server),
+not always when opened as a file.
 
 ---
 
@@ -48,27 +49,39 @@ connected, it shows sample products so you can see the design.
 | `content.js` | Business name, contact, intro text | ⚙️ Once, during setup |
 | `BRAND_GUIDELINES.md` | Brand colours, fonts, voice | 📖 Reference |
 | `HOW-TO-ADD-PRODUCTS.md` | Step-by-step product guide | 📖 The owner's guide |
+| `HOSTING.md` | Domain, DNS, GitHub Pages, accounts | 📖 For renewals and future helpers |
+| `CNAME` | Custom domain for GitHub Pages | ⚙️ Domain setup — don't delete |
 | `index.html`, `styles.css`, `app.js` | The website itself | 🚫 Don't edit |
 
 ---
 
 ## Live website
 
-🌐 **https://jiyahandmade.com/** — hosted free on GitHub Pages.
+**https://jiyahandmade.com/** — the public shop.
 
 Past collections: **https://jiyahandmade.com/collections/**
 
-Repo: https://github.com/sravanskumar/jiya
+| | |
+| --- | --- |
+| Code | [github.com/sravanskumar/jiya](https://github.com/sravanskumar/jiya) (`main`) |
+| Hosting | GitHub Pages (free) |
+| Domain | `jiyahandmade.com`, bought from **Cloudflare Registrar** (3 Sep 2026, auto-renew) |
+| DNS | Cloudflare, **DNS only** (not proxied) → GitHub Pages |
+| Products | Airtable `Jiya Products` / `Products`, synced every ~10 minutes |
+
+The old URL `https://sravanskumar.github.io/jiya/` redirects to the custom domain.
 
 Because products live in Airtable, the owner never touches this repo for
 day-to-day updates. The site only needs a re-deploy if the design or the
-one-time settings (`config.js` / `content.js`) change, done with:
+one-time settings (`content.js`) change, done with:
 
 ```bash
 git add . && git commit -m "Update settings" && git push
 ```
 
 GitHub Pages rebuilds automatically within a minute.
+
+Full hosting / DNS / renewal notes: **[HOSTING.md](HOSTING.md)**.
 
 ---
 

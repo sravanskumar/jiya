@@ -154,7 +154,7 @@ mirrors this using free Google Fonts.
 - **WhatsApp orders:** 9980687834
 - Post consistently around **seasons**: Rakhi (Aug), festive/Diwali (Oct–Nov),
   winter caps (Nov–Jan), Valentine's, weddings, everyday.
-- Always end with warmth and a clear CTA ("DM to order" / "Link in bio").
+- Always end with warmth and a clear CTA ("DM to order" / "Shop: jiyahandmade.com").
 - Encourage customers to **tag @jiya_handmade_creations** — reshare their photos.
 - Keep the grid cohesive: cream tones, natural light, botanical touches.
 
@@ -178,8 +178,11 @@ mirrors this using free Google Fonts.
 
 ## 10. Contact
 
+- **Shop:** [jiyahandmade.com](https://jiyahandmade.com/)
 - **Instagram:** [@jiya_handmade_creations](https://www.instagram.com/jiya_handmade_creations/)
 - **WhatsApp:** 9980687834
 - **Location:** Guntur, Andhra Pradesh, India
+
+Put **https://jiyahandmade.com/** in the Instagram bio (not the old github.io URL).
 
 _Made just for you. 💛_
