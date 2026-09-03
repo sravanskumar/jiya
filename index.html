@@ -8,17 +8,17 @@
   <link rel="canonical" href="https://sravanskumar.github.io/jiya/" />
 
   <!-- Favicon / icons -->
-  <link rel="icon" type="image/png" href="assets/jiya-logo.png" />
-  <link rel="apple-touch-icon" href="assets/jiya-logo.png" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch.png" />
 
   <!-- Social share preview -->
   <meta property="og:title" content="Jiya Handmade Creations" />
   <meta property="og:description" content="Handmade with love, made just for you. Hand-knitted &amp; crochet woollen creations from Guntur." />
-  <meta property="og:image" content="https://sravanskumar.github.io/jiya/assets/jiya-logo.png" />
+  <meta property="og:image" content="https://sravanskumar.github.io/jiya/assets/og-image.jpg" />
   <meta property="og:url" content="https://sravanskumar.github.io/jiya/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://sravanskumar.github.io/jiya/assets/jiya-logo.png" />
+  <meta name="twitter:image" content="https://sravanskumar.github.io/jiya/assets/og-image.jpg" />
 
   <script type="application/ld+json">
   {
@@ -26,7 +26,7 @@
     "@type": "LocalBusiness",
     "name": "Jiya Handmade Creations",
     "description": "Small-batch hand-knitted and crochet woollen creations from Guntur. Festive drops, pouches, charms and caps — made just for you.",
-    "image": "https://sravanskumar.github.io/jiya/assets/jiya-logo.png",
+    "image": "https://sravanskumar.github.io/jiya/assets/og-image.jpg",
     "url": "https://sravanskumar.github.io/jiya/",
     "telephone": "+919980687834",
     "address": {
@@ -39,11 +39,8 @@
   }
   </script>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
+  <link rel="preload" as="font" href="fonts/dancing-script-600.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="image" href="assets/hero.webp" type="image/webp" fetchpriority="high" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -64,14 +61,21 @@
     </nav>
   </header>
 
+  <main>
+
   <!-- ===================== HERO ===================== -->
   <section class="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-bg" aria-hidden="true">
+      <picture>
+        <source type="image/webp" srcset="assets/hero.webp" />
+        <img src="assets/hero.jpg" alt="" width="1600" height="1067" fetchpriority="high" decoding="async" />
+      </picture>
+    </div>
     <div class="container hero-inner">
       <p class="eyebrow">Handmade with love, made just for you</p>
-      <h1 id="hero-heading" class="hero-heading"></h1>
-      <p id="hero-subheading" class="hero-sub"></p>
-      <a id="hero-button" href="#products" class="btn btn-primary"></a>
+      <h1 id="hero-heading" class="hero-heading">Hand-knitted with love</h1>
+      <p id="hero-subheading" class="hero-sub">Small-batch woollen crochet, pouches, charms and caps — each one made by hand in Guntur, made just for you.</p>
+      <a id="hero-button" href="#products" class="btn btn-primary">See our creations</a>
     </div>
   </section>
 
@@ -95,8 +99,8 @@
     <div class="container about-inner">
       <div class="about-card reveal">
         <span class="about-heart" aria-hidden="true">♥</span>
-        <h2 id="about-heading" class="section-title"></h2>
-        <p id="about-text" class="about-text"></p>
+        <h2 id="about-heading" class="section-title">Our Story</h2>
+        <p id="about-text" class="about-text">Jiya Handmade Creations is a small, handmade woollen brand from Guntur. Every piece — from festive crochet rakhis to cosy caps — is knitted and crocheted by hand, in limited batches, with care in every stitch. We made our debut this Rakhi season and sold out two days early. Thank you for being part of the journey.</p>
       </div>
     </div>
   </section>
@@ -115,17 +119,19 @@
     </div>
   </section>
 
+  </main>
+
   <!-- ===================== FOOTER ===================== -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <span class="brand-script footer-logo">jiya</span>
       <p class="footer-tagline">Thank you — made just for you.</p>
       <p id="footer-contact" class="footer-contact"></p>
-      <p class="footer-copy">&copy; <span id="year"></span> Jiya Handmade Creations · Guntur</p>
+      <p class="footer-copy">&copy; <span id="year">2026</span> Jiya Handmade Creations · Guntur</p>
     </div>
   </footer>
 
-  <script src="content.js"></script>
-  <script src="app.js"></script>
+  <script src="content.js" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

@@ -152,7 +152,7 @@ function head(opts) {
   const title = esc(opts.title);
   const desc = esc(opts.description);
   const canonical = esc(opts.canonical);
-  const image = esc(opts.image || absUrl("assets/jiya-logo.png"));
+  const image = esc(opts.image || absUrl("assets/og-image.jpg"));
   const jsonLd = opts.jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(opts.jsonLd)}</script>`
     : "";
@@ -164,8 +164,8 @@ function head(opts) {
   <title>${title}</title>
   <meta name="description" content="${desc}" />
   <link rel="canonical" href="${canonical}" />
-  <link rel="icon" type="image/png" href="../assets/jiya-logo.png" />
-  <link rel="apple-touch-icon" href="../assets/jiya-logo.png" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png" />
+  <link rel="apple-touch-icon" href="../assets/apple-touch.png" />
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${desc}" />
   <meta property="og:image" content="${image}" />
@@ -173,9 +173,7 @@ function head(opts) {
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="${image}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="font" href="../fonts/dancing-script-600.woff2" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="../styles.css" />${jsonLd}
 </head>`;
 }
@@ -196,12 +194,14 @@ function chrome(active) {
         <a href="../#contact">Contact</a>
       </div>
     </nav>
-  </header>`;
+  </header>
+  <main>`;
 }
 
 function footer() {
   const year = new Date().getFullYear();
   return `
+  </main>
   <footer class="site-footer">
     <div class="container footer-inner">
       <span class="brand-script footer-logo">jiya</span>
@@ -225,6 +225,7 @@ function cardHtml(p) {
   const cat = p.category ? `<span class="card-cat">${esc(p.category)}</span>` : "";
   const price = p.price ? `<span class="card-price">${esc(p.price)}</span>` : "<span></span>";
   const label = onDemand ? "Order on demand" : "Order";
+  const aria = onDemand ? `Order ${p.name} on demand` : `Order ${p.name}`;
   return `<article class="card">
           ${ribbon}
           <div class="card-media">${img}</div>
@@ -234,7 +235,7 @@ function cardHtml(p) {
             <p class="card-desc">${esc(p.description || "")}</p>
             <div class="card-foot">
               ${price}
-              <a class="card-order" href="${esc(waHref(p))}" target="_blank" rel="noopener">${label}</a>
+              <a class="card-order" href="${esc(waHref(p))}" target="_blank" rel="noopener" aria-label="${esc(aria)}">${label}</a>
             </div>
           </div>
         </article>`;
@@ -309,7 +310,7 @@ function collectionPage(col) {
     ? `${col.title} (${col.caption}) — handmade woollen pieces from Jiya Handmade Creations in Guntur. Order on demand on WhatsApp.`
     : `${col.title} — handmade woollen pieces from Jiya Handmade Creations in Guntur. Order on demand on WhatsApp.`;
   const canonical = SITE_BASE.replace(/\/$/, "") + "/collections/" + col.slug + ".html";
-  const image = col.cover ? absUrl(col.cover) : absUrl("assets/jiya-logo.png");
+  const image = col.cover ? absUrl(col.cover) : absUrl("assets/og-image.jpg");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",

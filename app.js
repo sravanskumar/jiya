@@ -231,6 +231,7 @@
     order.target = "_blank";
     order.rel = "noopener";
     order.textContent = onDemand ? "Order on demand" : "Order";
+    order.setAttribute("aria-label", onDemand ? "Order " + p.name + " on demand" : "Order " + p.name);
     foot.appendChild(order);
     body.appendChild(foot);
     el.appendChild(body);
