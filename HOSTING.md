@@ -37,7 +37,7 @@ the **registrar + DNS**. GitHub Pages serves the files.
 - **Cloudflare account:** the `jiyahandmadecreations` account
 - **Domain registrant (legal owner):** Jayalakshmi Bai Kadam
 - **Registrant email:** `jiyahandmadecreations@gmail.com` (must stay working — ICANN sends a verification mail here)
-- **Registration:** 1 year from 3 Sep 2026, **auto-renew on**, about **$10.46 / year**
+- **Registration:** 1 year from 3 Sep 2026, **auto-renew on**. List price **$10.46 / year**; first charge on the Visa was **$12.34** (tax/fees on top).
 - **WHOIS:** Cloudflare redacts the personal name from public lookup. Keep Cloudflare’s copy matching Jayalakshmi Bai Kadam + this Gmail.
 - **Not bought yet:** `jiyahandmade.in` — still available as of setup. If bought later (Namecheap or similar; Cloudflare does not sell `.in`), forward it with a 301 to `https://jiyahandmade.com`.
 
@@ -118,6 +118,21 @@ on this base) and replace the GitHub secret. Do not put the token in a file.
 If the domain ever changes, update `SITE_BASE`, `CNAME`, `index.html`,
 `robots.txt`, regenerate collection pages (`node scripts/build-pages.mjs`),
 and regenerate the QR.
+
+---
+
+## Money spent
+
+This is the only cash cost so far. GitHub Pages, the repo, and the Airtable
+free plan are $0. Do not put card numbers in this file.
+
+| Date | What | Paid with | Amount |
+| --- | --- | --- | --- |
+| 3 Sep 2026 | `jiyahandmade.com` — 1 year at Cloudflare (list $10.46 + tax/fees) | Visa | **$12.34** |
+
+**Total so far: $12.34.** Auto-renew next year should be about $10.46 plus tax,
+charged to the same Cloudflare billing method. Invoice: Cloudflare dashboard →
+the domain → **View invoice**.
 
 ---
 

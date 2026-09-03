@@ -65,7 +65,7 @@ Past collections: **https://jiyahandmade.com/collections/**
 | --- | --- |
 | Code | [github.com/sravanskumar/jiya](https://github.com/sravanskumar/jiya) (`main`) |
 | Hosting | GitHub Pages (free) |
-| Domain | `jiyahandmade.com`, bought from **Cloudflare Registrar** (3 Sep 2026, auto-renew) |
+| Domain | `jiyahandmade.com`, Cloudflare Registrar, 3 Sep 2026 — first charge **$12.34** Visa (then ~$10.46/yr + tax) |
 | DNS | Cloudflare, **DNS only** (not proxied) → GitHub Pages |
 | Products | Airtable `Jiya Products` / `Products`, synced every ~10 minutes |
 
