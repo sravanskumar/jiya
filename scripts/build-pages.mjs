@@ -8,7 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const SITE_BASE = process.env.SITE_BASE || "https://sravanskumar.github.io/jiya";
+const SITE_BASE = process.env.SITE_BASE || "https://jiyahandmade.com";
 const WHATSAPP = "919980687834";
 const INSTAGRAM = "https://www.instagram.com/jiya_handmade_creations/";
 const COL_DIR = "collections";

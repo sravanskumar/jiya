@@ -114,7 +114,7 @@ Also make sure **Status** is `Shop` (or empty) and **Visible** is ticked.
 
 **Where did last season's rakhis go?**
 If **Status** is `Archive`, they are under
-[Past collections](https://sravanskumar.github.io/jiya/collections/) — still
+[Past collections](https://jiyahandmade.com/collections/) — still
 orderable on demand. If you deleted the row, add it back.
 
 **Made just for you. 💛**

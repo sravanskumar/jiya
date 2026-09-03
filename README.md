@@ -4,7 +4,7 @@ A simple website for Jiya Handmade Creations, designed so that **a non-technical
 person can add and edit products with no coding and no commits.**
 
 The **home page** is the current Shop. Finished festive drops live in
-**[Past collections](https://sravanskumar.github.io/jiya/collections/)**, grouped
+**[Past collections](https://jiyahandmade.com/collections/)**, grouped
 by season (for example Rakhi 2026). Those pages are real HTML so search engines
 can find them. Sold-out pieces stay orderable **on demand** via WhatsApp.
 
@@ -54,9 +54,9 @@ connected, it shows sample products so you can see the design.
 
 ## Live website
 
-🌐 **https://sravanskumar.github.io/jiya/** — hosted free on GitHub Pages.
+🌐 **https://jiyahandmade.com/** — hosted free on GitHub Pages.
 
-Past collections: **https://sravanskumar.github.io/jiya/collections/**
+Past collections: **https://jiyahandmade.com/collections/**
 
 Repo: https://github.com/sravanskumar/jiya
 
