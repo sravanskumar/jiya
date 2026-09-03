@@ -82,6 +82,8 @@ HTTPS is GitHub’s job (see below).
   - **Enforce HTTPS:** on (certificate covers `jiyahandmade.com` and `www`)
 - **CNAME file** in the repo root contains `jiyahandmade.com`. Do not delete it.
   GitHub also stores the same value in Pages settings.
+- **Google Search Console:** `google229afd2276eb0b25.html` in the repo root
+  verifies `https://jiyahandmade.com`. Do not delete it.
 - Canonical URLs, Open Graph images, `robots.txt`, and `sitemap.xml` use
   `https://jiyahandmade.com`. The generator default is in
   `scripts/build-pages.mjs` (`SITE_BASE`).
