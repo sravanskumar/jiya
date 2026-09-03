@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-29T13:47:29.640Z",
+  "updatedAt": "2026-09-03T11:12:56.705Z",
   "products": [
     {
       "name": "Woollen Mobile Pouch",
@@ -17,7 +17,7 @@
     {
       "name": "Wallets",
       "category": "Wallets",
-      "price": "400",
+      "price": "From ₹400",
       "description": "Mini wallet for storing cash, cards and other small essentials.\n\nSize - 4 x 3 inches\nFabric - Cotton\nColour - Maroon and White",
       "image": "images/products/recSlTPOJELNsMUBi.jpg",
       "soldOut": false,
@@ -36,9 +36,9 @@
       "soldOut": true,
       "featured": false,
       "visible": true,
-      "status": "shop",
-      "collection": "",
-      "date": ""
+      "status": "archive",
+      "collection": "Rakhi 2026",
+      "date": "2026-08-01"
     },
     {
       "name": "Hand-Knitted Woollen Cap",
