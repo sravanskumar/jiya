@@ -21,6 +21,8 @@ to a future helper.
 | Product catalogue | Airtable | Base `Jiya Products`, table `Products` |
 | Auto-publish | GitHub Actions | Syncs Airtable → the repo every ~10 minutes |
 | Orders | WhatsApp | `919980687834` (shown on the site as 9980687834) |
+| Brand owner | Jayalakshmi Bai Kadam | Legal registrant for the domain |
+| Domain email | `jiyahandmadecreations@gmail.com` | Cloudflare + ICANN mail |
 | Social | Instagram | [@jiya_handmade_creations](https://www.instagram.com/jiya_handmade_creations/) |
 
 There is **no** Squarespace, WordPress, or paid web host. Cloudflare is only
@@ -33,9 +35,10 @@ the **registrar + DNS**. GitHub Pages serves the files.
 - **Primary URL:** `jiyahandmade.com` (and `www.jiyahandmade.com`, which redirects to the apex)
 - **Bought from:** [Cloudflare Registrar](https://dash.cloudflare.com/) — at-cost pricing, no markup
 - **Cloudflare account:** the `jiyahandmadecreations` account
+- **Domain registrant (legal owner):** Jayalakshmi Bai Kadam
 - **Registrant email:** `jiyahandmadecreations@gmail.com` (must stay working — ICANN sends a verification mail here)
 - **Registration:** 1 year from 3 Sep 2026, **auto-renew on**, about **$10.46 / year**
-- **WHOIS:** Cloudflare redacts the personal name from public lookup. The legal registrant is still the real owner.
+- **WHOIS:** Cloudflare redacts the personal name from public lookup. Keep Cloudflare’s copy matching Jayalakshmi Bai Kadam + this Gmail.
 - **Not bought yet:** `jiyahandmade.in` — still available as of setup. If bought later (Namecheap or similar; Cloudflare does not sell `.in`), forward it with a 301 to `https://jiyahandmade.com`.
 
 The old address **https://sravanskumar.github.io/jiya/** still works. GitHub
