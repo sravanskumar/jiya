@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-03T14:22:58.410Z",
+  "updatedAt": "2026-09-04T10:36:12.490Z",
   "products": [
     {
       "name": "Woollen Mobile Pouch",
@@ -20,6 +20,19 @@
       "price": "From ₹100",
       "description": "Multi hair accessories",
       "image": "images/products/recF1uorEaqP3XNBZ.png",
+      "soldOut": false,
+      "featured": true,
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": ""
+    },
+    {
+      "name": "Bag & Mobile Charm",
+      "category": "Charms & Keychains",
+      "price": "From ₹60",
+      "description": "Little crochet hangings for your bag or phone.",
+      "image": "images/products/recHe4yNkxfYBeqD4.png",
       "soldOut": false,
       "featured": true,
       "visible": true,
