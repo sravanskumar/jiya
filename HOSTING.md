@@ -92,6 +92,54 @@ A push to `main` republishes the site within about a minute.
 
 ---
 
+## Preview, test, and deploy code
+
+There is **no `develop` branch** and no staging site. The Airtable sync bot
+commits to **`main`**. A second branch would fight that. Product changes are
+tested on the live shop after a sync. Code changes (HTML, CSS, JS, docs) are
+previewed locally, then pushed to `main`.
+
+### Local preview (code only)
+
+Photos and `fetch("products.json")` work more reliably from a small server
+than from a `file://` tab.
+
+```bash
+cd /path/to/jiya
+git pull origin main
+python3 -m http.server 8000
+```
+
+Open http://localhost:8000/ and http://localhost:8000/collections/. Stop with
+Ctrl+C.
+
+### What to click before you push
+
+- Home Shop: filters, product photos, **Order** / **Order on demand** (WhatsApp
+  opens with name + photo link)
+- [Past collections](http://localhost:8000/collections/) and a season page
+- Contact buttons, header “jiya” script, hero on a phone-width window
+- After a domain or font change: Lighthouse in Incognito + Mobile on the
+  **live** URL (no `#products` hash), not on localhost
+
+### Deploy
+
+```bash
+git pull origin main
+git add -p   # or git add <files> — do not commit secrets
+git commit -m "Short reason for the change"
+git push origin main
+```
+
+Always **pull first**. `jiya-sync-bot` may have pushed product photos while you
+were editing. GitHub Pages rebuilds **`main`** in about a minute. Then check
+https://jiyahandmade.com/ (hard refresh).
+
+Do not create `develop`, `release/*`, or a second GitHub Pages project for this
+shop unless two people are shipping code every week.
+
+---
+
 ## Airtable → website
 
 - **Base:** `Jiya Products` (`app27MQgngwYt6BMU`)

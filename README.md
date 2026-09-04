@@ -18,11 +18,32 @@ Airtable** if a change has not appeared after 15–20 minutes.
 
 ---
 
-## Preview the website
+## Preview, test, and deploy
 
-Double-click **`index.html`** to open it in a browser. Product photos load
-best when the folder is served as a site (GitHub Pages or a local web server),
-not always when opened as a file.
+**Products:** Airtable only. See [HOW-TO-ADD-PRODUCTS.md](HOW-TO-ADD-PRODUCTS.md).
+No local server, no git.
+
+**Code** (layout, copy in `content.js`, this documentation): preview locally,
+then push **`main`**. There is no `develop` branch. Full steps:
+[HOSTING.md — Preview, test, and deploy code](HOSTING.md#preview-test-and-deploy-code).
+
+```bash
+cd /path/to/jiya
+git pull origin main
+python3 -m http.server 8000
+```
+
+Open http://localhost:8000/ . When it looks right:
+
+```bash
+git pull origin main
+git add <files>
+git commit -m "Short reason"
+git push origin main
+```
+
+Wait about a minute and check **https://jiyahandmade.com/**. Pull before every
+push — the Airtable sync bot also commits to `main`.
 
 ---
 
@@ -42,7 +63,7 @@ not always when opened as a file.
 | `content.js` | Business name, contact, intro text | ⚙️ Once, during setup |
 | `BRAND_GUIDELINES.md` | Brand colours, fonts, voice | 📖 Reference |
 | `HOW-TO-ADD-PRODUCTS.md` | Owner’s content guide (Airtable only) | 📖 The person who adds products |
-| `HOSTING.md` | Domain, DNS, GitHub Pages, accounts | 📖 For renewals and future helpers |
+| `HOSTING.md` | Domain, DNS, local preview, deploy, troubleshooting | 📖 For helpers |
 | `CNAME` | Custom domain for GitHub Pages | ⚙️ Domain setup — don't delete |
 | `index.html`, `styles.css`, `app.js` | The website itself | 🚫 Don't edit |
 
@@ -65,14 +86,7 @@ Past collections: **https://jiyahandmade.com/collections/**
 The old URL `https://sravanskumar.github.io/jiya/` redirects to the custom domain.
 
 Because products live in Airtable, the owner never touches this repo for
-day-to-day updates. The site only needs a re-deploy if the design or the
-one-time settings (`content.js`) change, done with:
-
-```bash
-git add . && git commit -m "Update settings" && git push
-```
-
-GitHub Pages rebuilds automatically within a minute.
+day-to-day updates. Code deploys are a push to `main` (see above).
 
 Full hosting / DNS / renewal notes: **[HOSTING.md](HOSTING.md)**.
 
