@@ -1,124 +1,141 @@
-# How to add products to the Jiya website
+# Jiya — how to update the shop
 
-**No coding. No computer commands. Just an app on your phone or laptop.**
+This is the **only** guide you need for products. No coding. No GitHub.
+Open **Airtable** on your phone or laptop, change a row, wait for the site.
 
-The live shop is **[jiyahandmade.com](https://jiyahandmade.com/)**. Hosting and
-domain details (GitHub + Cloudflare) are in [HOSTING.md](HOSTING.md) — you do
-not need that file to add products.
+**Shop:** [jiyahandmade.com](https://jiyahandmade.com/)  
+**Past collections:** [jiyahandmade.com/collections/](https://jiyahandmade.com/collections/)  
+**Airtable:** base **Jiya Products** → table **Products**
 
-> **Do this once in Airtable** (or the next automatic sync will drop the season
-> page): add columns **Status**, **Collection**, and **Date** (see below). For
-> Crochet Rakhi, set Collection to `Rakhi 2026`, Date to `1 Aug 2026`, and
-> Status to `Shop` (or `Archive` if that season is over).
-
-You add and edit products in **Airtable** (a free, simple app that works like a
-smart spreadsheet). The website updates itself automatically from Airtable — when
-you add or change a product, it appears on the website on its own, usually
-**within about 10 minutes**. Nothing to publish, no buttons to press.
+Domain, DNS, and passwords live in [HOSTING.md](HOSTING.md). Skip that file
+unless the website itself is down.
 
 ---
 
-## Everyday use — adding a product (30 seconds)
+## The one rule
 
-1. Open the **Airtable** app (phone) or [airtable.com](https://airtable.com) (laptop).
-2. Open the **Jiya Products** base, then the **Products** table.
-3. Tap **+** to add a new row and fill in:
+**Do not delete a product row.** Tick **SoldOut**, set **Status** to **Archive**,
+or set **Status** to **Hidden**. Deleting a row removes it from the site and from
+Past collections.
 
-   | Column | What to type | Example |
-   | --- | --- | --- |
-   | **Name** | The product name | `Woollen Mobile Pouch` |
-   | **Category** | Pick one (Pouches, Charms & Keychains, Hair Accessories, Caps & Beanies, Winterwear, Toys, Baby, Festive) | `Pouches` |
-   | **Price** | Any text | `From ₹200` |
-   | **Description** | One short line | `Snug hand-knitted phone pouch` |
-   | **Photo** | Tap and **upload a photo** from your phone | 📷 |
-   | **SoldOut** | Tick if this batch is gone — the site still lets people **order on demand** | ☐ / ☑ |
-   | **Featured** | Tick to show a "New" tag | ☐ / ☑ |
-   | **Visible** | Untick only to hide the piece completely | ☑ |
-   | **Status** | `Shop` (on the home page), `Archive` (past collections), or `Hidden` | `Shop` |
-   | **Collection** | Season name — **same spelling** for every piece in that drop | `Rakhi 2026` |
-   | **Date** | Any day in that drop (used for “August 2026” and sorting) | `2026-08-01` |
-
-4. That's it. Shop pieces appear on the home page. Pieces with a Collection name
-   also get a page under **Past collections** that Google can find.
-
-**To edit** a product: change the row.
-**To hide** a product: set **Status** to `Hidden`, or untick **Visible**.
-**When a batch sells out:** tick **SoldOut** — it stays on the site with an
-**Order on demand** button (we can still make one).
-**When a festive season ends:** change **Status** from `Shop` to `Archive`
-(select all those rows in Airtable and update together). Do **not** delete the
-row. It leaves the home Shop and stays in that season's collection, still
-orderable on demand.
-
-> 💡 Collection tip: type `Rakhi 2026`, not `rakhi 2026` on one row and
-> `Rakhi-2026` on another. The website groups by the exact name. Date can be
-> the first of the month — you don't need the exact festival day.
-
-> 💡 Photo tip: square photos in soft natural light look best. Upload straight
-> from your phone's gallery — Airtable handles the rest.
-
-> 💡 Category tip: the website's filter buttons are created automatically from
-> the categories you use. For toy sizes, keep the category as `Toys` and put the
-> size in the name or description (e.g. "Crochet Bunny (Large)"). You can add new
-> category options in Airtable any time.
+You never “create a collection” as a new table. **Collection** is a box on the
+same product row. Type `Rakhi 2026` there. The website builds the season page.
 
 ---
 
-## One-time: add the archive columns in Airtable
+## Add a product
 
-The website already understands these fields. Add them once in the Products table
-so the automatic sync can read them:
+1. Open Airtable → **Jiya Products** → **Products**.
+2. Tap **+** for a new row.
+3. Fill at least **Name**, **Category**, **Price**, **Description**, **Photo**,
+   **Status = Shop**, **Visible** ticked.
+4. Wait, then check [jiyahandmade.com](https://jiyahandmade.com/).
 
-1. **Status** — Single select with options `Shop`, `Archive`, `Hidden`.
-   Set current everyday pieces to `Shop`. Set a finished festive drop to `Archive`.
-2. **Collection** — Single line text. Example: `Rakhi 2026`.
-3. **Date** — Date. Pick any day in that season (e.g. 1 Aug 2026).
+| Column | What to put | Example |
+| --- | --- | --- |
+| **Name** | What the customer sees | `Woollen Mobile Pouch` |
+| **Category** | One group — the shop filter buttons come from this | `Pouches` |
+| **Price** | Always with the rupee mark | `From ₹200` |
+| **Description** | One or two short lines | `Snug hand-knitted phone pouch` |
+| **Photo** | Upload from your phone. Square, natural light. Empty photo = blank card. | 📷 |
+| **SoldOut** | Tick when this batch is gone. The site still offers **Order on demand**. | ☐ / ☑ |
+| **Featured** | Tick only for a true “New” piece — not every row | ☐ |
+| **Visible** | Leave ticked. Untick only to hide a **Shop** piece quickly | ☑ |
+| **Status** | `Shop` for the home page | `Shop` |
+| **Collection** | Leave empty for everyday pieces | |
+| **Date** | Leave empty for everyday pieces | |
 
-Until a row has **Status**, it behaves like **Shop** if **Visible** is ticked.
-
-If you skip Collection and Date, the piece still shows in Shop, but it will not
-get a named season page. Fill them for every festive drop.
-
----
-
-## Setup — already done ✅
-
-The website is already connected to Airtable. The base, the fields, and the
-secure connection are set up, so **you don't need to do any of this** — it's
-here only for reference.
-
-- **Base:** `Jiya Products` → table `Products`
-- **Fields:** Name, Category, Price, Description, Photo, SoldOut, Featured,
-  Visible, Status, Collection, Date
-- **Connection:** a **read-only** Airtable token is stored as a private
-  **GitHub secret** (not in the website's code). An automatic job reads Airtable
-  every ~10 minutes and updates the site. Photos are copied into the site too, so
-  everything stays fast and reliable.
-
-If you ever need to reconnect (e.g. the token was reset), a helper can create a
-new read-only token at
-[airtable.com/create/tokens](https://airtable.com/create/tokens) (scope
-`data.records:read`, access to the Jiya base) and update the GitHub secret named
-`AIRTABLE_TOKEN`.
+**Edit:** change the same row. **Rename a category** in Airtable and the filter
+button on the site follows.
 
 ---
 
-## Common questions
+## Shop, Archive, Hidden, Visible
 
-**Do I need to "commit" or use any code?**
-No. Adding products is done entirely in the Airtable app. Nothing to commit.
+| You want | Do this |
+| --- | --- |
+| On the home Shop | **Status = Shop**, Visible ticked |
+| Off the Shop, still in Past collections (festive drop ended) | **Status = Archive**, fill **Collection** + **Date**. Leave Visible ticked |
+| Off the Shop for now (everyday piece) | Untick **Visible**, or **Status = Hidden** |
+| Off Past collections too, without deleting | **Status = Hidden** |
 
-**Is my token exposed on the website?**
-No. The token is **read-only** and stored as a private GitHub secret — it is
-never part of the website's code or visible to visitors.
+**Visible** only hides **Shop** pieces. It does **not** hide an **Archive** row.
+To take something off a season page, use **Hidden**.
 
-**I added a product but don't see it yet.**
-The site refreshes from Airtable about every 10 minutes — give it a few minutes.
-Also make sure **Status** is `Shop` (or empty) and **Visible** is ticked.
+---
 
-**Where did last season's rakhis go?**
-If **Status** is `Archive`, they are under
-[Past collections](https://jiyahandmade.com/collections/) — still
-orderable on demand. If you deleted the row, add it back.
+## When a festive season ends (Rakhi, Diwali, …)
 
-**Made just for you. 💛**
+On **every piece in that drop** (select them together if there are several):
+
+1. **Status** → `Archive`
+2. **Collection** → the season name, **same spelling on every row**  
+   Good: `Rakhi 2026`  
+   Bad: `rakhi 2026` on one row and `Rakhi-2026` on another
+3. **Date** → any day in that season (1 Aug 2026 is enough)
+4. Tick **SoldOut** if that batch is gone
+
+Example already on the site: **Crochet Rakhi** is Archive / `Rakhi 2026` /
+1 Aug 2026. It is **not** on the home page. It is on
+[Rakhi 2026](https://jiyahandmade.com/collections/rakhi-2026.html) with
+**Order on demand**.
+
+Everyday pieces (pouch, cap, charm, …) stay **Status = Shop**. Do not type
+`Rakhi 2026` on those rows.
+
+---
+
+## When a batch sells out (but the season is still current)
+
+Tick **SoldOut** only. Leave **Status = Shop**. It stays on the home page with
+**Order on demand**.
+
+---
+
+## When will it show on the website?
+
+The site copies Airtable automatically. It is *supposed* to be about every
+10 minutes. In practice GitHub often waits **much longer**.
+
+If it has not appeared after 15–20 minutes:
+
+- Check **Status** (`Shop` or `Archive`, not `Hidden`)
+- Check **Visible** is ticked for Shop pieces
+- Check a **Photo** is uploaded
+- Ask the person who looks after the website to **run a sync**  
+  (GitHub → **Actions** → **Sync products from Airtable** → **Run workflow**)
+
+Then wait about a minute and refresh [jiyahandmade.com](https://jiyahandmade.com/).
+
+---
+
+## Columns — already set up
+
+These fields already exist. Do not add a second Products table.
+
+Name, Category, Price, Description, Photo, SoldOut, Featured, Visible,
+**Status** (`Shop` / `Archive` / `Hidden`), **Collection**, **Date**.
+
+---
+
+## Quick answers
+
+**Do I commit or use GitHub?**  
+No. Only Airtable, unless someone is running a sync for you.
+
+**Can I put two photos?**  
+The site uses the first photo on the row.
+
+**Toy sizes?**  
+Keep Category as `Toys`. Put the size in the name (`Crochet Bunny (Large)`).
+
+**Wallets / other new categories?**  
+Allowed. A new Category name becomes a new filter button. Use it on purpose.
+
+**Where did the rakhis go?**  
+[Past collections](https://jiyahandmade.com/collections/) if Status is Archive.
+If you deleted the row, add it back.
+
+---
+
+_Made just for you._

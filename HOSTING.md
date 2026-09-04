@@ -1,9 +1,7 @@
 # Jiya — hosting, domain, and accounts
 
 This is the technical record of how the shop stays online. Day-to-day product
-edits still happen only in Airtable (see [HOW-TO-ADD-PRODUCTS.md](HOW-TO-ADD-PRODUCTS.md)).
-Use this file when renewing the domain, moving DNS, or explaining the setup
-to a future helper.
+edits: [HOW-TO-ADD-PRODUCTS.md](HOW-TO-ADD-PRODUCTS.md) (Airtable only).
 
 **Public shop:** [https://jiyahandmade.com/](https://jiyahandmade.com/)  
 **Past collections:** [https://jiyahandmade.com/collections/](https://jiyahandmade.com/collections/)

@@ -10,18 +10,11 @@ can find them. Sold-out pieces stay orderable **on demand** via WhatsApp.
 
 ## How products work
 
-Products are managed in **Airtable** — a free, friendly app (like a smart
-spreadsheet with photo uploads). A scheduled **GitHub Action** reads Airtable
-every ~10 minutes, downloads the photos, and writes `products.json`, which the
-website displays. So adding a product is just: open the app, fill a form, upload
-a photo. It appears on the site automatically within a few minutes.
-
-**The Airtable token is never in the site** — it's stored as a private GitHub
-secret (`AIRTABLE_TOKEN`) and only used by the sync job.
-
-👉 **Full instructions:** [HOW-TO-ADD-PRODUCTS.md](HOW-TO-ADD-PRODUCTS.md)
-
-There is **nothing to commit** and **no code to edit** for day-to-day updates.
+Products are managed in **Airtable**. The owner’s day-to-day steps are in
+**[HOW-TO-ADD-PRODUCTS.md](HOW-TO-ADD-PRODUCTS.md)** (add a row, upload a photo,
+archive a season). A GitHub job copies that into the website. It is meant to
+run often, but in practice you may need to run **Actions → Sync products from
+Airtable** if a change has not appeared after 15–20 minutes.
 
 ---
 
@@ -48,7 +41,7 @@ not always when opened as a file.
 | `.github/workflows/sync-airtable.yml` | Runs the sync every ~10 min | ⚙️ Setup/maintenance |
 | `content.js` | Business name, contact, intro text | ⚙️ Once, during setup |
 | `BRAND_GUIDELINES.md` | Brand colours, fonts, voice | 📖 Reference |
-| `HOW-TO-ADD-PRODUCTS.md` | Step-by-step product guide | 📖 The owner's guide |
+| `HOW-TO-ADD-PRODUCTS.md` | Owner’s content guide (Airtable only) | 📖 The person who adds products |
 | `HOSTING.md` | Domain, DNS, GitHub Pages, accounts | 📖 For renewals and future helpers |
 | `CNAME` | Custom domain for GitHub Pages | ⚙️ Domain setup — don't delete |
 | `index.html`, `styles.css`, `app.js` | The website itself | 🚫 Don't edit |
