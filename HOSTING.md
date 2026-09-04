@@ -97,9 +97,13 @@ A push to `main` republishes the site within about a minute.
 - **Base:** `Jiya Products` (`app27MQgngwYt6BMU`)
 - **Table:** `Products`
 - **Secret:** GitHub repo secret `AIRTABLE_TOKEN` (read-only token, never in the site)
-- **Job:** `.github/workflows/sync-airtable.yml` every 10 minutes, or **Actions → Sync products from Airtable → Run workflow**
-- The job writes `products.json`, `images/products/`, `collections/*.html`, and
-  `sitemap.xml`, then commits as `jiya-sync-bot`.
+- **Job:** `.github/workflows/sync-airtable.yml` is scheduled every 10 minutes.
+  GitHub often **skips or delays** that timer (hours is common). If Airtable
+  changed and the shop has not, run it by hand:
+  **https://github.com/sravanskumar/jiya/actions** → **Sync products from
+  Airtable** → **Run workflow**. The job writes `products.json`,
+  `images/products/`, `collections/*.html`, and `sitemap.xml`, then commits as
+  `jiya-sync-bot`. GitHub Pages updates about a minute after that push.
 
 If the token expires, create a new read-only token at
 [airtable.com/create/tokens](https://airtable.com/create/tokens) (`data.records:read`
@@ -138,6 +142,48 @@ the domain → **View invoice**.
 
 ---
 
+## If something is wrong
+
+**Airtable change is not on the shop (most common).**  
+GitHub’s 10-minute schedule is unreliable. Run **Actions → Sync products from
+Airtable → Run workflow**. Wait about a minute, then hard-refresh
+https://jiyahandmade.com/. Check Status / Visible / Photo on the row first
+(see [HOW-TO-ADD-PRODUCTS.md](HOW-TO-ADD-PRODUCTS.md)).
+
+**https://jiyahandmade.com/ does not load.**  
+1. Try https://sravanskumar.github.io/jiya/ — if that works, DNS or the custom
+   domain is the problem.  
+2. Cloudflare → DNS: four **A** records and **www** CNAME, all **DNS only**
+   (grey cloud).  
+3. GitHub → **Settings → Pages**: custom domain `jiyahandmade.com`, **Enforce
+   HTTPS** on.  
+4. Do not turn Cloudflare proxy (orange cloud) on.
+
+**Browser warns that HTTPS is unsafe.**  
+GitHub has not issued (or has lost) the certificate. Confirm DNS is grey-cloud
+to GitHub’s IPs, then Pages → turn **Enforce HTTPS** off and on. Leave
+Cloudflare SSL/TLS alone.
+
+**“Ownership verification failed” in Search Console.**  
+The file `google229afd2276eb0b25.html` must still be at the repo root and at
+https://jiyahandmade.com/google229afd2276eb0b25.html. Do not delete it.
+
+**Products vanished after a sync.**  
+A row was deleted in Airtable, or Status is Hidden, or Visible is off on a
+Shop piece. Restore the row; do not recreate hosting.
+
+**Domain is about to expire (around Sep 2027).**  
+Cloudflare auto-renew is on. Confirm the Visa on the Cloudflare account still
+works and `jiyahandmadecreations@gmail.com` still receives mail. Invoice:
+Cloudflare → domain → **View invoice**. List price ~$10.46/year plus tax.
+
+**Need a new Airtable token.**  
+[airtable.com/create/tokens](https://airtable.com/create/tokens) —
+`data.records:read` on this base only. Put it in the GitHub secret
+`AIRTABLE_TOKEN`. Never commit it.
+
+---
+
 ## What not to do
 
 - Do not buy hosting, a site builder, or Cloudflare Workers for this shop.
@@ -148,4 +194,4 @@ the domain → **View invoice**.
 
 ---
 
-_Last checked 3 Sep 2026: HTTPS live and enforced on GitHub Pages._
+_Last checked 4 Sep 2026._
