@@ -64,17 +64,56 @@ function absUrl(rel) {
   return SITE_BASE.replace(/\/$/, "") + "/" + String(rel).replace(/^\.?\//, "");
 }
 
+function variantLabel(p) {
+  const v = String((p && p.variant) || "").trim();
+  return v || (p && p.name) || "Option";
+}
+
+function orderName(p) {
+  const g = String((p && p.group) || "").trim();
+  const v = String((p && p.variant) || "").trim();
+  if (g && v) return g + " (" + v + ")";
+  return g || (p && p.name) || "";
+}
+
 function waHref(p) {
   const onDemand = !!(p.soldOut || normalizeStatus(p) === "archive");
   const base = onDemand
     ? "Hi Jiya! I'd like to order on demand"
     : "Hi Jiya! I'd like to order";
+  const label = orderName(p);
   let msg = p.collection
-    ? base + " from " + p.collection + ": " + p.name
-    : base + ": " + p.name;
+    ? base + " from " + p.collection + ": " + label
+    : base + ": " + label;
   const photo = absUrl(p.image);
   if (photo) msg += "\n" + photo;
   return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
+}
+
+function groupProductFamilies(list) {
+  const order = [];
+  const map = {};
+  for (const p of list || []) {
+    const g = String(p.group || "").trim();
+    if (!g) {
+      order.push({ title: p.name || "", variants: [p] });
+      continue;
+    }
+    const key = "g:" + g.toLowerCase();
+    if (!map[key]) {
+      map[key] = { title: g, variants: [] };
+      order.push(map[key]);
+    }
+    map[key].variants.push(p);
+  }
+  for (const fam of order) {
+    fam.variants.sort((a, b) => {
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return variantLabel(a).localeCompare(variantLabel(b));
+    });
+  }
+  return order;
 }
 
 function groupInfo(p) {
@@ -115,14 +154,16 @@ export function buildCollections(products) {
     if (usedSlugs.has(slug)) slug = slug + "-" + slugify(g.key).slice(-8);
     usedSlugs.add(slug);
     const caption = monthYear(latest);
+    const families = groupProductFamilies(g.products);
     return {
       slug,
       title: g.title,
       caption: caption && caption !== g.title ? caption : "",
       date: latest,
       cover,
-      count: g.products.length,
+      count: families.length,
       products: g.products,
+      families,
     };
   });
 
@@ -212,30 +253,68 @@ function footer() {
   </footer>`;
 }
 
-function cardHtml(p) {
-  const onDemand = !!(p.soldOut || normalizeStatus(p) === "archive");
-  const ribbon = p.soldOut
-    ? '<span class="ribbon soldout">Sold out</span>'
-    : p.featured
-      ? '<span class="ribbon">New</span>'
-      : "";
-  const img = p.image
-    ? `<img src="../${esc(p.image)}" alt="${esc(p.name)}" width="600" height="600" />`
-    : '<span class="card-placeholder">jiya</span>';
-  const cat = p.category ? `<span class="card-cat">${esc(p.category)}</span>` : "";
-  const price = p.price ? `<span class="card-price">${esc(p.price)}</span>` : "<span></span>";
+function thumbHtml(v, selected) {
+  const onDemand = !!(v.soldOut || normalizeStatus(v) === "archive");
+  const vLabel = variantLabel(v);
+  const name = orderName(v);
+  const imgPath = v.image ? "../" + v.image : "";
+  const img = v.image
+    ? `<img src="${esc(imgPath)}" alt="" loading="lazy" width="80" height="80" />`
+    : "";
   const label = onDemand ? "Order on demand" : "Order";
-  const aria = onDemand ? `Order ${p.name} on demand` : `Order ${p.name}`;
-  return `<article class="card">
+  const aria = onDemand ? "Order " + name + " on demand" : "Order " + name;
+  return `<button type="button" class="card-thumb" aria-pressed="${selected ? "true" : "false"}" aria-label="${esc(vLabel)}" data-image="${esc(imgPath)}" data-alt="${esc(vLabel)}" data-price="${esc(v.price || "")}" data-soldout="${v.soldOut ? "true" : "false"}" data-featured="${v.featured ? "true" : "false"}" data-wa="${esc(waHref(v))}" data-label="${label}" data-aria="${esc(aria)}">${img}<span class="card-thumb-label">${esc(vLabel)}</span></button>`;
+}
+
+function cardHtml(fam) {
+  const variants = fam.variants || [fam];
+  const first = variants[0];
+  const title = fam.title || (first && first.name) || "";
+  const allSold = variants.every((v) => v.soldOut);
+  const anyFeat = variants.some((v) => v.featured);
+  const onDemand = !!(first.soldOut || normalizeStatus(first) === "archive");
+  let ribbon;
+  if (first.soldOut || allSold) {
+    ribbon = '<span class="ribbon soldout">Sold out</span>';
+  } else if (first.featured || anyFeat) {
+    ribbon = '<span class="ribbon">New</span>';
+  } else {
+    ribbon = '<span class="ribbon" hidden></span>';
+  }
+  const img = first.image
+    ? `<img class="card-media-main" src="../${esc(first.image)}" alt="${esc(title)}" width="600" height="600" />`
+    : '<img class="card-media-main" alt="" hidden /><span class="card-placeholder">jiya</span>';
+  const placeholder = first.image
+    ? '<span class="card-placeholder" hidden>jiya</span>'
+    : "";
+  const thumbs =
+    variants.length > 1
+      ? `<div class="card-thumbs" role="group" aria-label="${esc("Options for " + title)}">${variants
+          .map((v, i) => thumbHtml(v, i === 0))
+          .join("")}</div>`
+      : "";
+  const attrs =
+    variants.length > 1
+      ? ` data-card-variants="1" data-all-soldout="${allSold ? "true" : "false"}" data-any-featured="${anyFeat ? "true" : "false"}"`
+      : "";
+  const cat = first.category ? `<span class="card-cat">${esc(first.category)}</span>` : "";
+  const price = first.price
+    ? `<span class="card-price">${esc(first.price)}</span>`
+    : '<span class="card-price"></span>';
+  const label = onDemand ? "Order on demand" : "Order";
+  const name = orderName(first);
+  const aria = onDemand ? "Order " + name + " on demand" : "Order " + name;
+  return `<article class="card"${attrs}>
           ${ribbon}
-          <div class="card-media">${img}</div>
+          <div class="card-media">${img}${placeholder}</div>${thumbs ? `
+          ${thumbs}` : ""}
           <div class="card-body">
             ${cat}
-            <h2 class="card-name">${esc(p.name)}</h2>
-            <p class="card-desc">${esc(p.description || "")}</p>
+            <h2 class="card-name">${esc(title)}</h2>
+            <p class="card-desc">${esc(first.description || "")}</p>
             <div class="card-foot">
               ${price}
-              <a class="card-order" href="${esc(waHref(p))}" target="_blank" rel="noopener" aria-label="${esc(aria)}">${label}</a>
+              <a class="card-order" href="${esc(waHref(first))}" target="_blank" rel="noopener" aria-label="${esc(aria)}">${label}</a>
             </div>
           </div>
         </article>`;
@@ -323,7 +402,7 @@ function collectionPage(col) {
       position: i + 1,
       item: {
         "@type": "Product",
-        name: p.name,
+        name: orderName(p) || p.name,
         description: p.description || "",
         image: p.image ? absUrl(p.image) : image,
         brand: { "@type": "Brand", name: "Jiya Handmade Creations" },
@@ -331,7 +410,8 @@ function collectionPage(col) {
     })),
   };
 
-  const cards = col.products.map(cardHtml).join("\n        ");
+  const families = col.families || groupProductFamilies(col.products);
+  const cards = families.map(cardHtml).join("\n        ");
   const note = [col.caption, "Order on demand on WhatsApp"]
     .filter(Boolean)
     .join(" · ");
@@ -358,6 +438,7 @@ ${chrome("collections")}
     </div>
   </section>
 ${footer()}
+  <script src="../cards.js" defer></script>
 </body>
 </html>
 `;

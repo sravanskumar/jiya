@@ -124,6 +124,8 @@ async function main() {
       status: "",
       collection: String(pick(f, ["collection", "season", "drop", "collectionname"]) || "").trim(),
       date,
+      group: String(pick(f, ["group", "family", "productgroup"]) || "").trim(),
+      variant: String(pick(f, ["variant", "option", "size"]) || "").trim(),
     };
     item.status = normalizeStatus({
       status: pick(f, ["status", "placement", "stage"]),

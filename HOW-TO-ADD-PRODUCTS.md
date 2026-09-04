@@ -34,7 +34,7 @@ same product row. Type `Rakhi 2026` there. The website builds the season page.
 | Column | What to put | Example |
 | --- | --- | --- |
 | **Name** | What the customer sees | `Woollen Mobile Pouch` |
-| **Category** | One group — the shop filter buttons come from this | `Pouches` |
+| **Category** | Shop filter button. Use the same word on every variant of one item | `Pouches` |
 | **Price** | Always with the rupee mark | `From ₹200` |
 | **Description** | One or two short lines | `Snug hand-knitted phone pouch` |
 | **Photo** | Upload from your phone. Square, natural light. Empty photo = blank card. | 📷 |
@@ -44,6 +44,8 @@ same product row. Type `Rakhi 2026` there. The website builds the season page.
 | **Status** | `Shop` for the home page | `Shop` |
 | **Collection** | Leave empty for everyday pieces | |
 | **Date** | Leave empty for everyday pieces | |
+| **Group** | Same words on every size/colour of one item. Leave empty for a single card | `Hand-Knitted Cap` |
+| **Variant** | Short label on the thumbnail. Needed when Group is filled | `Adult` / `Baby` |
 
 **Edit:** change the same row. **Rename a category** in Airtable and the filter
 button on the site follows.
@@ -85,6 +87,34 @@ Everyday pieces (pouch, cap, charm, …) stay **Status = Shop**. Do not type
 
 ---
 
+## Sizes, colours, and other variants
+
+Use this when one item has more than one photo or price (Adult / Baby, cream /
+maroon). **One Airtable row per option.** There is no second table.
+
+1. Add two columns once, if they are not there yet: **Group** and **Variant**
+   (both **Single line text**).
+2. Duplicate the product row (or add a new row).
+3. Type the **same Group** on every row that belongs together — same spelling,
+   same spaces. `Hand-Knitted Cap` and `Hand knitted cap` become two cards.
+4. Put a short **Variant** on each row (`Adult`, `Baby`, `Cream`).
+5. Each row keeps its own **Photo**, **Price**, **SoldOut**, **Status**, **Visible**.
+6. Use the **same Category** on every row in that Group. For a festive drop,
+   copy **Collection**, **Date**, and **Status** onto every variant row too.
+
+The shop shows **one card** titled with the Group. Thumbnails appear when there
+are two or more rows. Tapping a thumbnail changes the big photo, the price, the
+sold-out ribbon, and the WhatsApp Order message (`Hand-Knitted Cap (Adult)` plus
+that row’s photo).
+
+Leave **Group** empty for a normal single card. Separate cards (`Cap Adult`,
+`Cap Baby`) still work that way.
+
+Do not mix Shop and Archive inside one Group. Colour **and** size together is
+one Variant label: `Adult / Cream`.
+
+---
+
 ## When a batch sells out (but the season is still current)
 
 Tick **SoldOut** only. Leave **Status = Shop**. It stays on the home page with
@@ -115,6 +145,8 @@ These fields already exist. Do not add a second Products table.
 
 Name, Category, Price, Description, Photo, SoldOut, Featured, Visible,
 **Status** (`Shop` / `Archive` / `Hidden`), **Collection**, **Date**.
+**Group** and **Variant** — add once as **Single line text** if they are not
+on the table yet.
 
 ---
 
@@ -124,10 +156,13 @@ Name, Category, Price, Description, Photo, SoldOut, Featured, Visible,
 No. Only Airtable, unless someone is running a sync for you.
 
 **Can I put two photos?**  
-The site uses the first photo on the row.
+One photo per row. For a second photo (another size or colour), duplicate the
+row, set the same **Group**, a different **Variant**, and upload that row’s
+photo.
 
 **Toy sizes?**  
-Keep Category as `Toys`. Put the size in the name (`Crochet Bunny (Large)`).
+Same **Group** on each size, **Variant** `Large` / `Small`. Or leave Group empty
+and put the size in the name (`Crochet Bunny (Large)`).
 
 **Wallets / other new categories?**  
 Allowed. A new Category name becomes a new filter button. Use it on purpose.

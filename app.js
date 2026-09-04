@@ -72,7 +72,7 @@
   }
 
   function waMessage(p) {
-    if (!p || !p.name) {
+    if (!p || !(p.name || p.group)) {
       var general = "Hi Jiya! I'd like to order from your creations.";
       return "https://wa.me/" + biz.whatsapp + "?text=" + encodeURIComponent(general);
     }
@@ -80,9 +80,10 @@
     var base = onDemand
       ? "Hi Jiya! I'd like to order on demand"
       : "Hi Jiya! I'd like to order";
+    var label = (window.JIYA_CARDS && JIYA_CARDS.orderName(p)) || p.name;
     var msg = p.collection
-      ? base + " from " + p.collection + ": " + p.name
-      : base + ": " + p.name;
+      ? base + " from " + p.collection + ": " + label
+      : base + ": " + label;
     var photo = absoluteUrl(p.image);
     if (photo) msg += "\n" + photo;
     return "https://wa.me/" + biz.whatsapp + "?text=" + encodeURIComponent(msg);
@@ -123,6 +124,8 @@
         status: p.status || "",
         collection: p.collection || "",
         date: p.date || "",
+        group: p.group || "",
+        variant: p.variant || "",
       };
       item.status = statusOf(item);
       return item;
@@ -150,10 +153,21 @@
   }
 
   /* ---------------- Rendering ---------------- */
+  function families() {
+    var Cards = window.JIYA_CARDS;
+    if (!Cards) {
+      return products.map(function (p) {
+        return { title: p.name, variants: [p] };
+      });
+    }
+    return Cards.groupProducts(products);
+  }
+
   function categories() {
     var set = ["All"];
-    products.forEach(function (p) {
-      if (p.category && set.indexOf(p.category) === -1) set.push(p.category);
+    families().forEach(function (fam) {
+      var cat = fam.variants[0] && fam.variants[0].category;
+      if (cat && set.indexOf(cat) === -1) set.push(cat);
     });
     return set;
   }
@@ -183,59 +197,135 @@
     var grid = $("product-grid");
     grid.innerHTML = "";
 
-    var list = products.filter(function (p) {
-      return currentFilter === "All" || p.category === currentFilter;
+    var list = families().filter(function (fam) {
+      var cat = fam.variants[0] && fam.variants[0].category;
+      return currentFilter === "All" || cat === currentFilter;
     });
 
     $("empty-note").hidden = list.length !== 0;
-    list.forEach(function (p) { grid.appendChild(card(p)); });
+    list.forEach(function (fam) { grid.appendChild(card(fam)); });
+    if (window.JIYA_CARDS) JIYA_CARDS.bindAll(grid);
     observeReveals(grid.querySelectorAll(".card.reveal"));
   }
 
-  function card(p) {
+  function card(fam) {
+    var variants = fam.variants || [fam];
+    var first = variants[0];
+    var title = fam.title || (first && first.name) || "";
+    var allSold = variants.every(function (v) { return v.soldOut; });
+    var anyFeat = variants.some(function (v) { return v.featured; });
     var el = document.createElement("article");
     el.className = "card reveal";
+    if (variants.length > 1) {
+      el.setAttribute("data-card-variants", "1");
+      el.setAttribute("data-all-soldout", allSold ? "true" : "false");
+      el.setAttribute("data-any-featured", anyFeat ? "true" : "false");
+    }
 
-    if (p.soldOut) el.appendChild(ribbon("Sold out", "soldout"));
-    else if (p.featured) el.appendChild(ribbon("New", ""));
+    var rib = ribbon("Sold out", "soldout");
+    if (first.soldOut || allSold) {
+      rib.textContent = "Sold out";
+      rib.className = "ribbon soldout";
+    } else if (first.featured || anyFeat) {
+      rib.textContent = "New";
+      rib.className = "ribbon";
+    } else {
+      rib.hidden = true;
+    }
+    el.appendChild(rib);
 
     var media = document.createElement("div");
     media.className = "card-media";
-    if (p.image) {
-      var img = document.createElement("img");
-      img.src = p.image;
-      img.alt = p.name || "Jiya handmade product";
-      img.loading = "lazy";
-      img.onerror = function () { media.innerHTML = '<span class="card-placeholder">jiya</span>'; };
-      media.appendChild(img);
+    var img = document.createElement("img");
+    img.className = "card-media-main";
+    img.alt = title;
+    img.loading = "lazy";
+    if (first.image) {
+      img.src = first.image;
     } else {
-      media.innerHTML = '<span class="card-placeholder">jiya</span>';
+      img.hidden = true;
     }
+    img.onerror = function () {
+      img.hidden = true;
+      var miss = media.querySelector(".card-placeholder");
+      if (miss) miss.hidden = false;
+    };
+    media.appendChild(img);
+    var ph = document.createElement("span");
+    ph.className = "card-placeholder";
+    ph.textContent = "jiya";
+    ph.hidden = !!first.image;
+    media.appendChild(ph);
     el.appendChild(media);
+
+    if (variants.length > 1) {
+      var thumbs = document.createElement("div");
+      thumbs.className = "card-thumbs";
+      thumbs.setAttribute("role", "group");
+      thumbs.setAttribute("aria-label", "Options for " + title);
+      variants.forEach(function (v, i) {
+        thumbs.appendChild(thumbButton(v, i === 0));
+      });
+      el.appendChild(thumbs);
+    }
 
     var body = document.createElement("div");
     body.className = "card-body";
     body.innerHTML =
-      (p.category ? '<span class="card-cat">' + esc(p.category) + "</span>" : "") +
-      '<h3 class="card-name">' + esc(p.name) + "</h3>" +
-      '<p class="card-desc">' + esc(p.description) + "</p>";
+      (first.category ? '<span class="card-cat">' + esc(first.category) + "</span>" : "") +
+      '<h3 class="card-name">' + esc(title) + "</h3>" +
+      '<p class="card-desc">' + esc(first.description || "") + "</p>";
 
     var foot = document.createElement("div");
     foot.className = "card-foot";
-    foot.innerHTML = p.price ? '<span class="card-price">' + esc(p.price) + "</span>" : "<span></span>";
+    foot.innerHTML = first.price
+      ? '<span class="card-price">' + esc(first.price) + "</span>"
+      : '<span class="card-price"></span>';
 
     var order = document.createElement("a");
-    var onDemand = !!p.soldOut;
+    var onDemand = !!(first.soldOut || statusOf(first) === "archive");
+    var label = (window.JIYA_CARDS && JIYA_CARDS.orderName(first)) || first.name;
     order.className = "card-order";
-    order.href = waMessage(p);
+    order.href = waMessage(first);
     order.target = "_blank";
     order.rel = "noopener";
     order.textContent = onDemand ? "Order on demand" : "Order";
-    order.setAttribute("aria-label", onDemand ? "Order " + p.name + " on demand" : "Order " + p.name);
+    order.setAttribute("aria-label", onDemand ? "Order " + label + " on demand" : "Order " + label);
     foot.appendChild(order);
     body.appendChild(foot);
     el.appendChild(body);
     return el;
+  }
+
+  function thumbButton(v, selected) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "card-thumb";
+    btn.setAttribute("aria-pressed", selected ? "true" : "false");
+    var vLabel = (window.JIYA_CARDS && JIYA_CARDS.variantLabel(v)) || v.name;
+    btn.setAttribute("aria-label", vLabel);
+    btn.setAttribute("data-image", v.image || "");
+    btn.setAttribute("data-alt", vLabel);
+    btn.setAttribute("data-price", v.price || "");
+    btn.setAttribute("data-soldout", v.soldOut ? "true" : "false");
+    btn.setAttribute("data-featured", v.featured ? "true" : "false");
+    var onDemand = !!(v.soldOut || statusOf(v) === "archive");
+    var orderLabel = (window.JIYA_CARDS && JIYA_CARDS.orderName(v)) || v.name;
+    btn.setAttribute("data-wa", waMessage(v));
+    btn.setAttribute("data-label", onDemand ? "Order on demand" : "Order");
+    btn.setAttribute("data-aria", onDemand ? "Order " + orderLabel + " on demand" : "Order " + orderLabel);
+    if (v.image) {
+      var timg = document.createElement("img");
+      timg.src = v.image;
+      timg.alt = "";
+      timg.loading = "lazy";
+      btn.appendChild(timg);
+    }
+    var cap = document.createElement("span");
+    cap.className = "card-thumb-label";
+    cap.textContent = vLabel;
+    btn.appendChild(cap);
+    return btn;
   }
 
   function ribbon(text, extra) {
