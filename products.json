@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-04T10:39:32.940Z",
+  "updatedAt": "2026-09-20T16:20:13.047Z",
   "products": [
     {
       "name": "Woollen Mobile Pouch",
@@ -45,6 +45,21 @@
       "date": "",
       "group": "Charms",
       "variant": "Blue"
+    },
+    {
+      "name": "Teddy ",
+      "category": "Charms & Keychains",
+      "price": "From 299",
+      "description": "A beautifully designed Teddy, your personal belongings",
+      "image": "images/products/recKDJNaGExhFnB2g.png",
+      "soldOut": false,
+      "featured": true,
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": "",
+      "group": "",
+      "variant": ""
     },
     {
       "name": "Wallets",
