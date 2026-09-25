@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-20T16:20:13.047Z",
+  "updatedAt": "2026-09-25T17:54:14.070Z",
   "products": [
     {
       "name": "Woollen Mobile Pouch",
@@ -92,11 +92,56 @@
       "variant": ""
     },
     {
+      "name": "Keychains ",
+      "category": "Charms & Keychains",
+      "price": "from 99",
+      "description": "",
+      "image": "images/products/recUZwwJRlNUZmgZM.jpg",
+      "soldOut": false,
+      "featured": true,
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": "",
+      "group": "",
+      "variant": ""
+    },
+    {
+      "name": "Desk Accessories ",
+      "category": "Gifts",
+      "price": "From 99",
+      "description": "",
+      "image": "images/products/recXgGpYtkUwMd5yC.jpg",
+      "soldOut": false,
+      "featured": true,
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": "",
+      "group": "",
+      "variant": ""
+    },
+    {
       "name": "Hand-Knitted Woollen Cap",
       "category": "Caps & Beanies",
       "price": "From ₹250",
       "description": "Warm, soft caps for babies, kids and adults.",
       "image": "images/products/reco2Iw6talYsi1dD.png",
+      "soldOut": false,
+      "featured": true,
+      "visible": true,
+      "status": "shop",
+      "collection": "",
+      "date": "",
+      "group": "",
+      "variant": ""
+    },
+    {
+      "name": "Events",
+      "category": "Gifts",
+      "price": "From 299/-",
+      "description": "",
+      "image": "images/products/recoBMYYrULKxT2Gb.png",
       "soldOut": false,
       "featured": true,
       "visible": true,
